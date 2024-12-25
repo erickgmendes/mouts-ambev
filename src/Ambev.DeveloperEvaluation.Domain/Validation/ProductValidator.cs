@@ -21,15 +21,5 @@ public class ProductValidator : AbstractValidator<Product>
         RuleFor(product => product.ExternalId)
             .NotEmpty().WithMessage("External Id is required.")
             .MaximumLength(50).WithMessage("External Id cannot be longer than 50 characters.");
-
-        RuleFor(product => product.IsActive)
-            .NotNull().WithMessage("Product active status is required.");
-
-        RuleFor(product => product.CreatedAt)
-            .NotEmpty().WithMessage("Product creation date is required.");
-
-        RuleFor(product => product.UpdatedAt)
-            .GreaterThan(product => product.CreatedAt).When(product => product.UpdatedAt.HasValue)
-            .WithMessage("Product update date must be after the creation date.");
     }
 }

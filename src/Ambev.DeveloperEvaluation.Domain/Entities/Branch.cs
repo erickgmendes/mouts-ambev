@@ -41,11 +41,6 @@ public class Branch: BaseEntity
     public string PostalCode { get; private set; } = string.Empty;
 
     /// <summary>
-    /// Gets a value indicating whether the branch is active or not.
-    /// </summary>
-    public bool IsActive { get; private set; }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="Branch"/> class.
     /// </summary>
     public Branch() { }

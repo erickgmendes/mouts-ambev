@@ -34,9 +34,6 @@ public class BranchesController : BaseController
         _mapper = mapper;
     }
     
-    
-    
-    
     /// <summary>
     /// Creates a new branch
     /// </summary>

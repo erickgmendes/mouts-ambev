@@ -29,16 +29,5 @@ public class CreateBranchRequestValidator : AbstractValidator<CreateBranchReques
         
         // Validates that the PostalCode is a valid format (e.g., ZIP code format)
         RuleFor(branch => branch.PostalCode).Matches(@"^\d{5}-\d{3}$").WithMessage("PostalCode must be in the format XXXXX-XXX.");
-        
-        // Ensures that the IsActive field is valid (whether true or false)
-        RuleFor(branch => branch.IsActive).NotNull().WithMessage("Active status must be specified.");
-        
-        // Validates that the CreatedAt is not empty (it should be set when creating the branch)
-        RuleFor(branch => branch.CreatedAt).NotEmpty().WithMessage("Creation date is required.");
-        
-        // Validates that the UpdatedAt date, if present, is later than CreatedAt
-        RuleFor(branch => branch.UpdatedAt)
-            .GreaterThan(branch => branch.CreatedAt).When(branch => branch.UpdatedAt.HasValue)
-            .WithMessage("Updated date must be later than the creation date.");
     }
 }

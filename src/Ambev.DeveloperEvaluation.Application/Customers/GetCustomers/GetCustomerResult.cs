@@ -1,38 +1,42 @@
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Branches.CreateBranch;
+namespace Ambev.DeveloperEvaluation.Application.Customers.GetCustomers;
 
 /// <summary>
-/// Represents a request to create a new branch in the system.
+/// Response model for GetBranch operation
 /// </summary>
-public class CreateBranchRequest
+public class GetCustomerResult
 {
     /// <summary>
-    /// Gets or sets the External identifier for the branch.
+    /// Gets the unique identifier for the branch.
+    /// </summary>
+    public Guid Id { get; set; }
+
+    /// <summary>
+    /// Gets the External identifier for the branch.
     /// </summary>
     public string ExternalId { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the name of the branch.
+    /// Gets the name of the branch.
     /// </summary>
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the address of the branch.
+    /// Gets the address of the branch.
     /// </summary>
     public string Address { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the city where the branch is located.
+    /// Gets the city where the branch is located.
     /// </summary>
     public string City { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the state where the branch is located.
+    /// Gets the state where the branch is located.
     /// </summary>
     public string State { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the postal code of the branch's address.
+    /// Gets the postal code of the branch's address.
     /// </summary>
     public string PostalCode { get; set; } = string.Empty;
-    
 }

@@ -37,18 +37,4 @@ public class GetBranchResponse
     /// </summary>
     public string PostalCode { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Gets a value indicating whether the branch is active or not.
-    /// </summary>
-    public bool IsActive { get; set; }
-
-    /// <summary>
-    /// Gets the date and time when the branch record was created.
-    /// </summary>
-    public DateTime CreatedAt { get; set; }
-
-    /// <summary>
-    /// Gets the date and time when the branch record was last updated.
-    /// </summary>
-    public DateTime? UpdatedAt { get; set; }
 }

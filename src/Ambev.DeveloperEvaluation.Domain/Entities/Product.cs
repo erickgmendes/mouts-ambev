@@ -33,28 +33,9 @@ public class Product: BaseEntity
     public decimal Price { get; private set; }
 
     /// <summary>
-    /// Gets a value indicating whether the product is active or not.
-    /// Determines whether the product is available for sale.
-    /// </summary>
-    public bool IsActive { get; private set; }
-
-    /// <summary>
-    /// Gets the date and time when the product was created.
-    /// </summary>
-    public DateTime CreatedAt { get; set; }
-
-    /// <summary>
-    /// Gets the date and time when the product was last updated.
-    /// </summary>
-    public DateTime? UpdatedAt { get; set; }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="Product"/> class.
     /// </summary>
-    public Product()
-    {
-        CreatedAt = DateTime.UtcNow;
-    }
+    public Product() {}
 
     /// <summary>
     /// Performs validation of the product entity.

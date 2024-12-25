@@ -1,5 +1,6 @@
 using Ambev.DeveloperEvaluation.Application.Branches.CreateBranch;
 using Ambev.DeveloperEvaluation.Application.Branchs.CreateBranch;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Branches.CreateBranch;
@@ -16,5 +17,6 @@ public class CreateBranchProfile: Profile
     {
         CreateMap<CreateBranchRequest, CreateBranchCommand>();
         CreateMap<CreateBranchResult, CreateBranchResponse>();
+        CreateMap<CreateBranchCommand, Branch>();
     }
 }
