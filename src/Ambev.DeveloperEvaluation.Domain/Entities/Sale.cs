@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Common.Validation;
+using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Validation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
@@ -6,13 +7,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 /// <summary>
 /// Represents a sale transaction in the system, including related customer, branch, and sale items.
 /// </summary>
-public class Sale
+public class Sale: BaseEntity
 {
-    /// <summary>
-    /// Gets the unique identifier for the sale transaction.
-    /// </summary>
-    public Guid Id { get; private set; }
-
     /// <summary>
     /// Gets the sale number, which is a unique reference for the sale.
     /// </summary>

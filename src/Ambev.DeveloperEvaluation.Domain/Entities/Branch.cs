@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Common.Validation;
+using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Validation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
@@ -6,13 +7,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 /// <summary>
 /// Represents a branch of the company, including its address and status.
 /// </summary>
-public class Branch
+public class Branch: BaseEntity
 {
-    /// <summary>
-    /// Gets the unique identifier for the branch.
-    /// </summary>
-    public Guid Id { get; private set; }
-
     /// <summary>
     /// Gets the external identifier for the branch.
     /// This identifier is used to reference the branch in external systems.
@@ -50,22 +46,9 @@ public class Branch
     public bool IsActive { get; private set; }
 
     /// <summary>
-    /// Gets the date and time when the branch record was created.
-    /// </summary>
-    public DateTime CreatedAt { get; set; }
-
-    /// <summary>
-    /// Gets the date and time when the branch record was last updated.
-    /// </summary>
-    public DateTime? UpdatedAt { get; set; }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="Branch"/> class.
     /// </summary>
-    public Branch()
-    {
-        CreatedAt = DateTime.UtcNow;
-    }
+    public Branch() { }
 
     /// <summary>
     /// Performs validation of the branch entity.

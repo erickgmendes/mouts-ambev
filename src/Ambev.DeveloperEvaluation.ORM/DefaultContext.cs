@@ -9,6 +9,7 @@ namespace Ambev.DeveloperEvaluation.ORM;
 public class DefaultContext : DbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<Branch> Branches { get; set; }
 
     public DefaultContext(DbContextOptions<DefaultContext> options) : base(options) { }
 
@@ -25,7 +26,8 @@ public class DefaultContext : DbContext
         
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=developer_evaluation;Username=developer;Password=ev@luAt10n");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=developer_evaluation;Username=developer;Password=ev@luAt10n",
+                b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.ORM"));
         }
     }
 }
@@ -43,7 +45,7 @@ public class YourDbContextFactory : IDesignTimeDbContextFactory<DefaultContext>
 
         builder.UseNpgsql(
                connectionString,
-               b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.WebApi")
+               b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.ORM")
         );
 
         return new DefaultContext(builder.Options);

@@ -25,6 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Branches\ListBranch\" />
+    <Folder Include="Features\Branches\UpdateBranch\" />
+    <Folder Include="Features\Customers\" />
+    <Folder Include="Features\Products\" />
+    <Folder Include="Features\SaleItems\" />
+    <Folder Include="Features\Sales\" />
     <Folder Include="Features\Users\GetUser\" />
     <Folder Include="Features\Users\DeleteUser\" />
     <Folder Include="Features\Users\ListUsers\" />

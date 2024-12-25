@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Common.Validation;
+using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Validation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
@@ -6,13 +7,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 /// <summary>
 /// Represents an item in a sale, including product details, quantity, pricing, and discounts.
 /// </summary>
-public class SaleItem
+public class SaleItem: BaseEntity
 {
-    /// <summary>
-    /// Gets the unique identifier for the sale item.
-    /// </summary>
-    public Guid Id { get; private set; }
-
     /// <summary>
     /// Gets the product associated with the sale item.
     /// </summary>

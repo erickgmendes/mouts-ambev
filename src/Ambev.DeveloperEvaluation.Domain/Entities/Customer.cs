@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Common.Validation;
+using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Validation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
@@ -6,13 +7,9 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 /// <summary>
 /// Represents a customer with essential personal and contact information in the system.
 /// </summary>
-public class Customer
-{
-    /// <summary>
-    /// Gets the unique identifier for the customer.
-    /// </summary>
-    public Guid Id { get; private set; }
+public class Customer: BaseEntity
 
+{
     /// <summary>
     /// Gets the external identifier associated with the customer, used for integrations with external systems.
     /// </summary>

@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Common.Validation;
+using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Validation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
@@ -6,13 +7,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 /// <summary>
 /// Represents a product in the system with details such as name, description, and price.
 /// </summary>
-public class Product
+public class Product: BaseEntity
 {
-    /// <summary>
-    /// Gets the unique identifier for the product.
-    /// </summary>
-    public Guid Id { get; private set; }
-
     /// <summary>
     /// Gets the external identifier associated with the product, used for integrations with external systems.
     /// </summary>
