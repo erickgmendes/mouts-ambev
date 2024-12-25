@@ -46,21 +46,10 @@ public class Sale: BaseEntity
     public ICollection<SaleItem> Items { get; private set; }
 
     /// <summary>
-    /// Gets the date and time when the sale record was created.
-    /// </summary>
-    public DateTime CreatedAt { get; set; }
-
-    /// <summary>
-    /// Gets the date and time when the sale record was last updated.
-    /// </summary>
-    public DateTime? UpdatedAt { get; set; }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="Sale"/> class.
     /// </summary>
     public Sale()
     {
-        CreatedAt = DateTime.UtcNow;
         Items = new List<SaleItem>();
     }
 

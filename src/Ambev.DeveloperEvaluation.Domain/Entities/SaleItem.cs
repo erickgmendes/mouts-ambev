@@ -44,22 +44,9 @@ public class SaleItem: BaseEntity
     public bool IsCancelled { get; private set; }
 
     /// <summary>
-    /// Gets the date and time when the sale item was created.
-    /// </summary>
-    public DateTime CreatedAt { get; set; }
-
-    /// <summary>
-    /// Gets the date and time when the sale item was last updated.
-    /// </summary>
-    public DateTime? UpdatedAt { get; set; }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="SaleItem"/> class.
     /// </summary>
-    public SaleItem()
-    {
-        CreatedAt = DateTime.UtcNow;
-    }
+    public SaleItem() { }
 
     /// <summary>
     /// Performs validation of the sale item entity.

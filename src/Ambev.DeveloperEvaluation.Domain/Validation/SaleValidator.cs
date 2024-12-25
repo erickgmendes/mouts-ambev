@@ -31,12 +31,5 @@ public class SaleValidator : AbstractValidator<Sale>
 
         RuleFor(sale => sale.IsCancelled)
             .NotNull().WithMessage("Sale cancellation status is required.");
-
-        RuleFor(sale => sale.CreatedAt)
-            .NotEmpty().WithMessage("Sale creation date is required.");
-
-        RuleFor(sale => sale.UpdatedAt)
-            .GreaterThan(sale => sale.CreatedAt).When(sale => sale.UpdatedAt.HasValue)
-            .WithMessage("Sale update date must be after the creation date.");
     }
 }

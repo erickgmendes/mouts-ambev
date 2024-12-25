@@ -21,12 +21,5 @@ public class SaleItemValidator : AbstractValidator<SaleItem>
 
         RuleFor(item => item.TotalAmount)
             .GreaterThanOrEqualTo(0).WithMessage("Total amount must be a non-negative value.");
-
-        RuleFor(item => item.CreatedAt)
-            .NotEmpty().WithMessage("Creation date is required.");
-
-        RuleFor(item => item.UpdatedAt)
-            .GreaterThan(item => item.CreatedAt).When(item => item.UpdatedAt.HasValue)
-            .WithMessage("Update date must be later than the creation date.");
     }
 }
