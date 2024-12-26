@@ -72,4 +72,20 @@ public class CustomerRepository: ICustomerRepository
         await _context.SaveChangesAsync(cancellationToken);
         return true;
     }
+    
+    /// <summary>
+    /// Deletes a customer from the database
+    /// </summary>
+    /// <param name="id">The unique identifier of the customer to delete</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>True if the customer was deleted, false if not found</returns>
+    public async Task<Customer?> UpdateAsync(Customer? customer, CancellationToken cancellationToken = default)
+    {
+        if (customer == null)
+            return null;
+
+        _context.Customers.Update(customer);
+        await _context.SaveChangesAsync(cancellationToken);
+        return customer;
+    }
 }

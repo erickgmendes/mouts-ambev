@@ -41,7 +41,10 @@ public class SaleItemRepository: ISaleItemRepository
     /// <returns>The sale if found, null otherwise</returns>
     public async Task<SaleItem?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.SaleItems.FirstOrDefaultAsync(o=> o.Id == id, cancellationToken);
+        return await _context.SaleItems
+            .Include(x=>x.Sale)
+            .Include(x=>x.Product)
+            .FirstOrDefaultAsync(o=> o.Id == id, cancellationToken);
     }
 
     public async Task<SaleItem?> GetByExternalIdAsync(string externalId, CancellationToken cancellationToken = default)
@@ -64,5 +67,21 @@ public class SaleItemRepository: ISaleItemRepository
         _context.SaleItems.Remove(sale);
         await _context.SaveChangesAsync(cancellationToken);
         return true;
+    }
+    
+    /// <summary>
+    /// Deletes a saleItem from the database
+    /// </summary>
+    /// <param name="id">The unique identifier of the saleItem to delete</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>True if the saleItem was deleted, false if not found</returns>
+    public async Task<SaleItem?> UpdateAsync(SaleItem? saleItem, CancellationToken cancellationToken = default)
+    {
+        if (saleItem == null)
+            return null;
+
+        _context.SaleItems.Update(saleItem);
+        await _context.SaveChangesAsync(cancellationToken);
+        return saleItem;
     }
 }

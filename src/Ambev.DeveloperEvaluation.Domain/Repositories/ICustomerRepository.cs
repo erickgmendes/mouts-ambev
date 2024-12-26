@@ -38,4 +38,12 @@ public interface ICustomerRepository
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>True if the customer was deleted, false if not found</returns>
     Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+    
+    /// <summary>
+    /// Deletes a customer from the repository
+    /// </summary>
+    /// <param name="id">The unique identifier of the customer to delete</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The customer if found, null otherwise</returns>
+    Task<Customer?> UpdateAsync(Customer customer, CancellationToken cancellationToken = default);
 }

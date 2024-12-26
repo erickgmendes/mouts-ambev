@@ -15,7 +15,7 @@ public class UpdateSaleItemProfile: Profile
     public UpdateSaleItemProfile()
     {
         CreateMap<UpdateSaleItemRequest, UpdateSaleItemCommand>();
+        CreateMap<SaleItem, UpdateSaleItemResult>();
         CreateMap<UpdateSaleItemResult, UpdateSaleItemResponse>();
-        CreateMap<UpdateSaleItemCommand, SaleItem>();
     }
 }

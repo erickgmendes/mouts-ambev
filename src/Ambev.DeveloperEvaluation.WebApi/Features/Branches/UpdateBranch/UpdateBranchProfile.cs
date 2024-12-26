@@ -16,7 +16,7 @@ public class UpdateBranchProfile: Profile
     public UpdateBranchProfile()
     {
         CreateMap<UpdateBranchRequest, UpdateBranchCommand>();
+        CreateMap<Branch, UpdateBranchResult>();
         CreateMap<UpdateBranchResult, UpdateBranchResponse>();
-        CreateMap<UpdateBranchCommand, Branch>();
     }
 }

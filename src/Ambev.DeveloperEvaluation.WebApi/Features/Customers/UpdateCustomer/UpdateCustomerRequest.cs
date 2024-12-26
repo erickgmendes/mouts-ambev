@@ -1,4 +1,4 @@
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Customeres.UpdateCustomer;
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Customers.UpdateCustomer;
 
 /// <summary>
 /// Represents a request to create a new customer in the system.

@@ -1,6 +1,8 @@
+using MediatR;
+
 namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 
-public class UpdateSaleCommand
+public class UpdateSaleCommand : IRequest<UpdateSaleResult>
 {
     /// <summary>
     /// Gets the unique identifier for the sale.

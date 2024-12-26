@@ -1,5 +1,4 @@
 using Ambev.DeveloperEvaluation.Domain.Validation;
-using Ambev.DeveloperEvaluation.WebApi.Features.Customeres.UpdateCustomer;
 using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Customers.UpdateCustomer;

@@ -68,4 +68,12 @@ public class Customer: BaseEntity
     {
         return $"Customer: {Name}, Document: {Document}";
     }
+
+    public void Update(string name, string document, string email, string phone)
+    {
+        this.Name = name;
+        this.Document = document;
+        this.Email = name;
+        this.Phone = phone;
+    }
 }

@@ -84,9 +84,9 @@ public class BranchesController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = _mapper.Map<GetBranchCommand>(request.Id);
         try
         {
+            var command = _mapper.Map<GetBranchCommand>(request.Id);
             var response = await _mediator.Send(command, cancellationToken);
             
             return Ok(new ApiResponseWithData<GetBranchResponse>
@@ -125,10 +125,10 @@ public class BranchesController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = _mapper.Map<DeleteBranchCommand>(request.Id);
 
         try
         {
+            var command = _mapper.Map<DeleteBranchCommand>(request.Id);
             await _mediator.Send(command, cancellationToken);
 
             return Ok(new ApiResponse
@@ -166,11 +166,10 @@ public class BranchesController : BaseController
 
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
-
-        var command = _mapper.Map<UpdateBranchCommand>(request);
     
         try
         {
+            var command = _mapper.Map<UpdateBranchCommand>(request);
             var response = await _mediator.Send(command, cancellationToken);
         
             return Ok(new ApiResponseWithData<UpdateBranchResponse>

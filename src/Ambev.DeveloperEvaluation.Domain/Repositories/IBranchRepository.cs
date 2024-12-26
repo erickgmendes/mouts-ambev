@@ -38,4 +38,12 @@ public interface IBranchRepository
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>True if the branch was deleted, false if not found</returns>
     Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Deletes a branch from the repository
+    /// </summary>
+    /// <param name="id">The unique identifier of the branch to delete</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The branch if found, null otherwise</returns>
+    Task<Branch?> UpdateAsync(Branch branch, CancellationToken cancellationToken = default);
 }

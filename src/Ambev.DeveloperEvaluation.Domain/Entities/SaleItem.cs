@@ -78,4 +78,13 @@ public class SaleItem: BaseEntity
     {
         return $"{Product?.Name ?? "Unknown Product"} - Quantity: {Quantity}, Total Amount: {TotalAmount:C}";
     }
+
+    public void Update(int quantity, decimal unitPrice, decimal discount, decimal totalAmount, SaleItemStatus status)
+    {
+        this.Quantity = quantity;
+        this.UnitPrice = unitPrice;
+        this.Discount = discount;
+        this.TotalAmount = totalAmount;
+        this.Status = status;
+    }
 }

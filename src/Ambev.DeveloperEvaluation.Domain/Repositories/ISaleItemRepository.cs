@@ -38,4 +38,12 @@ public interface ISaleItemRepository
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>True if the sale was deleted, false if not found</returns>
     Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+    
+    /// <summary>
+    /// Deletes a saleItem from the repository
+    /// </summary>
+    /// <param name="id">The unique identifier of the saleItem to delete</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The saleItem if found, null otherwise</returns>
+    Task<SaleItem?> UpdateAsync(SaleItem saleItem, CancellationToken cancellationToken = default);
 }

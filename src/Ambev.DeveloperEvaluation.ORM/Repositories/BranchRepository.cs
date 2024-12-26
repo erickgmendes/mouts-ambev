@@ -72,4 +72,14 @@ public class BranchRepository: IBranchRepository
         await _context.SaveChangesAsync(cancellationToken);
         return true;
     }
+
+    public async Task<Branch?> UpdateAsync(Branch? branch, CancellationToken cancellationToken = default)
+    {
+        if (branch == null)
+            return null;
+
+        _context.Branches.Update(branch);
+        await _context.SaveChangesAsync(cancellationToken);
+        return branch;
+    }
 }

@@ -15,7 +15,7 @@ public class UpdateCustomerProfile: Profile
     public UpdateCustomerProfile()
     {
         CreateMap<UpdateCustomerRequest, UpdateCustomerCommand>();
+        CreateMap<Customer, UpdateCustomerResult>();
         CreateMap<UpdateCustomerResult, UpdateCustomerResponse>();
-        CreateMap<UpdateCustomerCommand, Customer>();
     }
 }

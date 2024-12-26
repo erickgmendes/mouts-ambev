@@ -5,7 +5,10 @@ using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.IoC;
 using Ambev.DeveloperEvaluation.ORM;
+using Ambev.DeveloperEvaluation.WebApi.Features.Customers.UpdateCustomer;
+using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
 using Ambev.DeveloperEvaluation.WebApi.Middleware;
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -40,8 +43,15 @@ public class Program
 
             builder.RegisterDependencies();
 
-            builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(ApplicationLayer).Assembly);
+            /*builder.Services.AddAutoMapper(
+                typeof(Program).Assembly, 
+                typeof(ApplicationLayer).Assembly,
+                typeof(UpdateCustomerProfile).Assembly
+                );*/
             
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()
+                .Where(a => a.FullName != null && a.FullName.StartsWith("Ambev.DeveloperEvaluation")));
+
             builder.Services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(
@@ -50,6 +60,15 @@ public class Program
                 );
             });
 
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<GetSaleProfile>(); 
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+
+            
+            
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             var app = builder.Build();

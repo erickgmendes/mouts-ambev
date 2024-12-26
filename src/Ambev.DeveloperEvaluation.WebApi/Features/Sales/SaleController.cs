@@ -1,5 +1,4 @@
 using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
-using Ambev.DeveloperEvaluation.Application.Sales.CreateSales;
 using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 using Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
@@ -85,10 +84,9 @@ public class SaleController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = _mapper.Map<GetSaleCommand>(request.Id);
-
         try
         {
+            var command = _mapper.Map<GetSaleCommand>(request.Id);
             var response = await _mediator.Send(command, cancellationToken);
 
             return Ok(new ApiResponseWithData<GetSaleResponse>

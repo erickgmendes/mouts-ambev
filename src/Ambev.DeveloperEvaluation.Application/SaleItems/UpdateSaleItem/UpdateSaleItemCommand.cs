@@ -1,6 +1,8 @@
+using MediatR;
+
 namespace Ambev.DeveloperEvaluation.Application.SaleItems.UpdateSaleItem;
 
-public class UpdateSaleItemCommand
+public class UpdateSaleItemCommand : IRequest<UpdateSaleItemResult>
 {
     /// <summary>
     /// Gets the Id of the saleItem.

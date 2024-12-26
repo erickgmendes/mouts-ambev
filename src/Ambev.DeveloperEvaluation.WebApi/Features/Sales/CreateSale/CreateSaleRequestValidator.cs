@@ -1,3 +1,4 @@
+using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Validation;
 using FluentValidation;
 
@@ -17,7 +18,7 @@ public class CreateSaleRequestValidator : AbstractValidator<CreateSaleRequest>
         RuleFor(sale => sale.Number).NotEmpty().WithMessage("Number is required.");
         
         // Validates that the Sale Date is not empty and is greater than or equal to DateTime.UtcNow 
-        RuleFor(sale => sale.Date).NotEmpty().GreaterThanOrEqualTo(DateTime.UtcNow).WithMessage("Date name is required.");
+        RuleFor(sale => sale.Date).NotEmpty();
         
         // Validates that the Customer Id is not empty
         RuleFor(sale => sale.CustomerId).NotEmpty().WithMessage("Customer Id is required.");
@@ -29,6 +30,6 @@ public class CreateSaleRequestValidator : AbstractValidator<CreateSaleRequest>
         RuleFor(sale => sale.BranchId).NotEmpty().WithMessage("Branch Id is required.");
         
         // Validates that the Status is not empty
-        RuleFor(sale => sale.Status).NotEmpty().WithMessage("Status is required.");
+        RuleFor(sale => sale.Status).IsInEnum().WithMessage("Status is required.");
     }
 }

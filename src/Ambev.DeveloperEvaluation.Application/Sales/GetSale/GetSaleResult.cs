@@ -1,3 +1,5 @@
+using Ambev.DeveloperEvaluation.Domain.Enums;
+
 namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 
 /// <summary>
@@ -6,37 +8,45 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 public class GetSaleResult
 {
     /// <summary>
-    /// Gets the unique identifier for the branch.
+    /// Gets the unique identifier for the sale.
     /// </summary>
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Gets the External identifier for the branch.
+    /// Gets and sets the sale number, which is a unique reference for the sale.
     /// </summary>
-    public string ExternalId { get; set; } = string.Empty;
+    public string Number { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets the name of the branch.
+    /// Gets and sets the date and time when the sale occurred.
     /// </summary>
-    public string Name { get; set; } = string.Empty;
+    public DateTime Date { get; set; }
 
     /// <summary>
-    /// Gets the address of the branch.
+    /// Gets and sets the customer associated with the sale.
     /// </summary>
-    public string Address { get; set; } = string.Empty;
+    public Guid? CustomerId { get; set; }
 
     /// <summary>
-    /// Gets the city where the branch is located.
+    /// Gets and sets the total amount of the sale.
+    /// This is the sum of all sale items' prices.
     /// </summary>
-    public string City { get; set; } = string.Empty;
+    public decimal TotalAmount { get; set; }
+    
+    /// <summary>
+    /// Gets and sets the branch where the sale occurred.
+    /// </summary>
+    public Guid? BranchId { get; set; }
+
+    /*
+    /// <summary>
+    /// Gets and sets the collection of items in the sale.
+    /// </summary>
+    public ICollection<SaleItem> Items { get; set; }
+    */
 
     /// <summary>
-    /// Gets the state where the branch is located.
+    /// Gets and sets a value indicating the status.
     /// </summary>
-    public string State { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets the postal code of the branch's address.
-    /// </summary>
-    public string PostalCode { get; set; } = string.Empty;
+    public SaleStatus Status { get; set; }
 }

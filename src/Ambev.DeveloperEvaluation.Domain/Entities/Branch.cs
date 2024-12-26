@@ -69,4 +69,13 @@ public class Branch: BaseEntity
     {
         return $"{Name}, {City}, {State}";
     }
+
+    public void Update(string name, string address, string city, string state, string postalCode)
+    {
+        this.Name = name;
+        this.Address = address;
+        this.City = city;
+        this.State = state;
+        this.PostalCode = postalCode;
+    }
 }

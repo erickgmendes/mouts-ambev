@@ -61,4 +61,12 @@ public class Product: BaseEntity
     {
         return $"Product: {Name}, Price: {Price:C}";
     }
+
+    public void Update(string externalId, string name, string description, decimal price)
+    {
+        this.ExternalId = externalId;
+        this.Name = name;
+        this.Description = description;
+        this.Price = price;
+    }
 }

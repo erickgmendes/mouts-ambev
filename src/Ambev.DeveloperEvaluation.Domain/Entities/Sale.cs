@@ -78,4 +78,23 @@ public class Sale: BaseEntity
     {
         return $"Sale: {Number}, Total Amount: {TotalAmount:C}, Date: {Date:yyyy-MM-dd}";
     }
+
+    public void Update(string number, DateTime date, decimal totalAmount, SaleStatus status)
+    {
+        this.Number = number;
+        this.Date = date;
+        this.TotalAmount = totalAmount;
+        this.Status = status;
+    }
+
+    public void SetCustomer(Customer customer)
+    {
+        Customer = customer;
+    }
+    
+    public void SetBranch(Branch branch)
+    {
+        Branch = branch;
+    }
+
 }

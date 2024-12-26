@@ -72,4 +72,20 @@ public class ProductRepository: IProductRepository
         await _context.SaveChangesAsync(cancellationToken);
         return true;
     }
+    
+    /// <summary>
+    /// Deletes a product from the database
+    /// </summary>
+    /// <param name="id">The unique identifier of the product to delete</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>True if the product was deleted, false if not found</returns>
+    public async Task<Product?> UpdateAsync(Product? product, CancellationToken cancellationToken = default)
+    {
+        if (product == null)
+            return null;
+
+        _context.Products.Update(product);
+        await _context.SaveChangesAsync(cancellationToken);
+        return product;
+    }
 }

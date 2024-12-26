@@ -23,7 +23,7 @@ public class CreateSaleResponse
     /// <summary>
     /// Gets and sets the customer associated with the sale.
     /// </summary>
-    public int? CustomerId { get; set; }
+    public Guid? CustomerId { get; set; }
 
     /// <summary>
     /// Gets and sets the total amount of the sale.
@@ -34,7 +34,7 @@ public class CreateSaleResponse
     /// <summary>
     /// Gets and sets the branch where the sale occurred.
     /// </summary>
-    public int? BranchId { get; set; }
+    public Guid? BranchId { get; set; }
 
     /*
     /// <summary>

@@ -38,4 +38,12 @@ public interface IProductRepository
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>True if the product was deleted, false if not found</returns>
     Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+    
+    /// <summary>
+    /// Deletes a product from the repository
+    /// </summary>
+    /// <param name="id">The unique identifier of the product to delete</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The product if found, null otherwise</returns>
+    Task<Product?> UpdateAsync(Product product, CancellationToken cancellationToken = default);
 }

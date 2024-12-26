@@ -3,7 +3,6 @@ using Ambev.DeveloperEvaluation.Application.Customers.DeleteCustomers;
 using Ambev.DeveloperEvaluation.Application.Customers.GetCustomers;
 using Ambev.DeveloperEvaluation.Application.Customers.UpdateCustomer;
 using Ambev.DeveloperEvaluation.WebApi.Common;
-using Ambev.DeveloperEvaluation.WebApi.Features.Customeres.UpdateCustomer;
 using Ambev.DeveloperEvaluation.WebApi.Features.Customers.DeleteCustomer;
 using Ambev.DeveloperEvaluation.WebApi.Features.Customers.CreateCustomer;
 using Ambev.DeveloperEvaluation.WebApi.Features.Customers.GetCustomer;
@@ -11,7 +10,7 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Customers.UpdateCustomer;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using UpdateCustomerRequest = Ambev.DeveloperEvaluation.WebApi.Features.Customeres.UpdateCustomer.UpdateCustomerRequest;
+using UpdateCustomerRequest = Ambev.DeveloperEvaluation.WebApi.Features.Customers.UpdateCustomer.UpdateCustomerRequest;
 using UpdateCustomerResponse = Ambev.DeveloperEvaluation.WebApi.Features.Customers.UpdateCustomer.UpdateCustomerResponse;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Customers;
@@ -162,17 +161,16 @@ public class CustomersController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateCustomer([FromRoute] Guid id, [FromBody] UpdateCustomerRequest request, CancellationToken cancellationToken)
     {
-        request.Id = id;
+        request.Id = id ;
         var validator = new UpdateCustomerRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
-
-        var command = _mapper.Map<UpdateCustomerCommand>(request);
     
         try
         {
+            var command = _mapper.Map<UpdateCustomerCommand>(request);
             var response = await _mediator.Send(command, cancellationToken);
         
             return Ok(new ApiResponseWithData<UpdateCustomerResponse>

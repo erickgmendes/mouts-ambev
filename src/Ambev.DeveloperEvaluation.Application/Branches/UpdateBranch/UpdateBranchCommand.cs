@@ -1,6 +1,9 @@
+using Ambev.DeveloperEvaluation.Application.Branches.GetBranch;
+using MediatR;
+
 namespace Ambev.DeveloperEvaluation.Application.Branches.UpdateBranch;
 
-public class UpdateBranchCommand
+public class UpdateBranchCommand : IRequest<UpdateBranchResult>
 {
     /// <summary>
     /// Gets the Id of the branch.
