@@ -23,8 +23,7 @@ public class CreateProductCommandValidator: AbstractValidator<CreateProductComma
     {
         RuleFor(product => product.ExternalId).NotEmpty().Length(3, 50);
         RuleFor(product => product.Name).NotEmpty().Length(3, 50);
-        RuleFor(product => product.Document).NotEmpty().Length(3, 50);
-        RuleFor(product => product.Email).SetValidator(new EmailValidator());
-        RuleFor(product => product.Phone).Matches(@"^\+?[1-9]\d{1,14}$");
+        RuleFor(product => product.Description).NotEmpty().Length(3, 50);
+        RuleFor(product => product.Price).NotEmpty();
     }
 }

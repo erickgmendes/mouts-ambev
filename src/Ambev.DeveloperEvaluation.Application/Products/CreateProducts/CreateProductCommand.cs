@@ -23,31 +23,25 @@ public class CreateProductCommand : IRequest<CreateProductResult>
     /// <summary>
     /// Gets the external identifier associated with the product, used for integrations with external systems.
     /// </summary>
-    public string ExternalId { get; set; } = string.Empty;
+    public string ExternalId { get; private set; } = string.Empty;
 
     /// <summary>
-    /// Gets the full name of the product.
+    /// Gets the name of the product.
     /// This should not be null or empty.
     /// </summary>
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; private set; } = string.Empty;
 
     /// <summary>
-    /// Gets the product's document number (e.g., CPF, CNPJ).
-    /// Follows the format required for product identification.
+    /// Gets the description of the product.
+    /// Provides additional information about the product's features or specifications.
     /// </summary>
-    public string Document { get; set; } = string.Empty;
+    public string Description { get; private set; } = string.Empty;
 
     /// <summary>
-    /// Gets the email address of the product.
-    /// Must be in a valid email format for communication and authentication purposes.
+    /// Gets the price of the product.
+    /// This value should be a positive decimal representing the product's cost.
     /// </summary>
-    public string Email { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets the product's phone number.
-    /// Must follow the format (XX) XXXXX-XXXX.
-    /// </summary>
-    public string Phone { get; set; } = string.Empty;
+    public decimal Price { get; private set; }
 
     public ValidationResultDetail Validate()
     {

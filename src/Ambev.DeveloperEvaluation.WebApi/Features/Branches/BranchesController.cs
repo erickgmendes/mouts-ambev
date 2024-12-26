@@ -1,13 +1,17 @@
 using Ambev.DeveloperEvaluation.Application.Branches.CreateBranch;
 using Ambev.DeveloperEvaluation.Application.Branches.DeleteBranch;
 using Ambev.DeveloperEvaluation.Application.Branches.GetBranch;
+using Ambev.DeveloperEvaluation.Application.Branches.UpdateBranch;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Branches.CreateBranch;
 using Ambev.DeveloperEvaluation.WebApi.Features.Branches.DeleteBranch;
 using Ambev.DeveloperEvaluation.WebApi.Features.Branches.GetBranch;
+using Ambev.DeveloperEvaluation.WebApi.Features.Branches.UpdateBranch;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using UpdateBranchRequest = Ambev.DeveloperEvaluation.WebApi.Features.Branches.UpdateBranch.UpdateBranchRequest;
+using UpdateBranchResponse = Ambev.DeveloperEvaluation.WebApi.Features.Branches.UpdateBranch.UpdateBranchResponse;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Branches;
 
@@ -143,5 +147,47 @@ public class BranchesController : BaseController
         }    
     }
     
+    /// <summary>
+    /// Updates an existing branch
+    /// </summary>
+    /// <param name="id">The unique identifier of the branch to update</param>
+    /// <param name="request">The branch update request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Success response if the branch was updated</returns>
+    [HttpPut("{id}")]
+    [ProducesResponseType(typeof(ApiResponseWithData<UpdateBranchResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateBranch([FromRoute] Guid id, [FromBody] UpdateBranchRequest request, CancellationToken cancellationToken)
+    {
+        request.Id = id;
+        var validator = new UpdateBranchRequestValidator();
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+        if (!validationResult.IsValid)
+            return BadRequest(validationResult.Errors);
+
+        var command = _mapper.Map<UpdateBranchCommand>(request);
+    
+        try
+        {
+            var response = await _mediator.Send(command, cancellationToken);
+        
+            return Ok(new ApiResponseWithData<UpdateBranchResponse>
+            {
+                Success = true,
+                Message = "Branch updated successfully",
+                Data = _mapper.Map<UpdateBranchResponse>(response)
+            });
+        }
+        catch (Exception e)
+        {
+            return NotFound(new ApiResponse
+            {
+                Success = false,
+                Message = "Branch not found"
+            });
+        }
+    }
     
 }

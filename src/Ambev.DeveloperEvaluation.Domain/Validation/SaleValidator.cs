@@ -29,7 +29,7 @@ public class SaleValidator : AbstractValidator<Sale>
             .Must(items => items.All(item => item.Quantity > 0 && item.UnitPrice > 0))
             .WithMessage("Each sale item must have a valid quantity and price.");
 
-        RuleFor(sale => sale.IsCancelled)
-            .NotNull().WithMessage("Sale cancellation status is required.");
+        RuleFor(sale => sale.Status)
+            .NotNull().WithMessage("Status is required.");
     }
 }

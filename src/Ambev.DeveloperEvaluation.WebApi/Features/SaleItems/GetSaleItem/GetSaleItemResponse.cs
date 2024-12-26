@@ -8,32 +8,42 @@ public class GetSaleItemResponse
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Gets the external identifier associated with the saleItem, used for integrations with external systems.
+    /// Gets the sale associated with the sale item.
     /// </summary>
-    public string ExternalId { get; private set; } = string.Empty;
+    public int SaleId { get; set; }
+    
+    /// <summary>
+    /// Gets and sets the product associated with the sale item.
+    /// </summary>
+    public int ProductId { get; set; }
 
     /// <summary>
-    /// Gets the full name of the saleItem.
-    /// This should not be null or empty.
+    /// Gets and sets the quantity of the product in the sale item.
+    /// This must be a positive integer.
     /// </summary>
-    public string Name { get; private set; } = string.Empty;
+    public int Quantity { get; set; }
 
     /// <summary>
-    /// Gets the saleItem's document number (e.g., CPF, CNPJ).
-    /// Follows the format required for saleItem identification.
+    /// Gets and sets the unit price of the product.
+    /// This value should be greater than zero.
     /// </summary>
-    public string Document { get; private set; } = string.Empty;
+    public decimal UnitPrice { get; set; }
 
     /// <summary>
-    /// Gets the email address of the saleItem.
-    /// Must be in a valid email format for communication and authentication purposes.
+    /// Gets and sets the discount applied to the product in this sale item.
+    /// This value is expressed as a decimal percentage (e.g., 0.1 for 10%).
     /// </summary>
-    public string Email { get; private set; } = string.Empty;
+    public decimal Discount { get; set; }
 
     /// <summary>
-    /// Gets the saleItem's phone number.
-    /// Must follow the format (XX) XXXXX-XXXX.
+    /// Gets and sets the total amount for the sale item, including the discount.
+    /// This value is calculated as (UnitPrice * Quantity) - Discount.
     /// </summary>
-    public string Phone { get; private set; } = string.Empty;
+    public decimal TotalAmount { get; set; }
+
+    /// <summary>
+    /// Gets and sets a value indicating whether the sale item has been cancelled.
+    /// </summary>
+    public int Status { get; set; }
 
 }

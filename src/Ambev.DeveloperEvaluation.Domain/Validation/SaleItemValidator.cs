@@ -7,6 +7,9 @@ public class SaleItemValidator : AbstractValidator<SaleItem>
 {
     public SaleItemValidator()
     {
+        RuleFor(item => item.Sale)
+            .NotNull().WithMessage("Sale is required.");
+        
         RuleFor(item => item.Product)
             .NotNull().WithMessage("Product is required.");
 
@@ -21,5 +24,8 @@ public class SaleItemValidator : AbstractValidator<SaleItem>
 
         RuleFor(item => item.TotalAmount)
             .GreaterThanOrEqualTo(0).WithMessage("Total amount must be a non-negative value.");
+        
+        RuleFor(sale => sale.Status)
+            .NotNull().WithMessage("Status is required.");
     }
 }

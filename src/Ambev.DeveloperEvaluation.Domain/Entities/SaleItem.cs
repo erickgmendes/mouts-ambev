@@ -1,5 +1,6 @@
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Validation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
@@ -10,9 +11,14 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 public class SaleItem: BaseEntity
 {
     /// <summary>
+    /// Gets the sale associated with the sale item.
+    /// </summary>
+    public Sale Sale { get; private set; }
+    
+    /// <summary>
     /// Gets the product associated with the sale item.
     /// </summary>
-    public Product? Product { get; private set; }
+    public Product Product { get; private set; }
 
     /// <summary>
     /// Gets the quantity of the product in the sale item.
@@ -41,7 +47,7 @@ public class SaleItem: BaseEntity
     /// <summary>
     /// Gets a value indicating whether the sale item has been cancelled.
     /// </summary>
-    public bool IsCancelled { get; private set; }
+    public SaleItemStatus Status { get; private set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SaleItem"/> class.

@@ -6,32 +6,26 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
 public class CreateProductRequest
 {
     /// <summary>
-    /// Gets the external identifier associated with the product, used for integrations with external systems.
+    /// Gets and sets the external identifier associated with the product, used for integrations with external systems.
     /// </summary>
     public string ExternalId { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets the full name of the product.
+    /// Gets and sets the name of the product.
     /// This should not be null or empty.
     /// </summary>
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets the product's document number (e.g., CPF, CNPJ).
-    /// Follows the format required for product identification.
+    /// Gets and sets the description of the product.
+    /// Provides additional information about the product's features or specifications.
     /// </summary>
-    public string Document { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets the email address of the product.
-    /// Must be in a valid email format for communication and authentication purposes.
+    /// Gets and sets the price of the product.
+    /// This value should be a positive decimal representing the product's cost.
     /// </summary>
-    public string Email { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets the product's phone number.
-    /// Must follow the format (XX) XXXXX-XXXX.
-    /// </summary>
-    public string Phone { get; set; } = string.Empty;
+    public decimal Price { get; set; }
     
 }

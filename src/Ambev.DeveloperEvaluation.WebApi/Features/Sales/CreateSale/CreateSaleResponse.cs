@@ -11,32 +11,41 @@ public class CreateSaleResponse
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Gets the external identifier associated with the sale, used for integrations with external systems.
+    /// Gets and sets the sale number, which is a unique reference for the sale.
     /// </summary>
-    public string ExternalId { get; private set; } = string.Empty;
+    public string Number { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets the full name of the sale.
-    /// This should not be null or empty.
+    /// Gets and sets the date and time when the sale occurred.
     /// </summary>
-    public string Name { get; private set; } = string.Empty;
+    public DateTime Date { get; set; }
 
     /// <summary>
-    /// Gets the sale's document number (e.g., CPF, CNPJ).
-    /// Follows the format required for sale identification.
+    /// Gets and sets the customer associated with the sale.
     /// </summary>
-    public string Document { get; private set; } = string.Empty;
+    public int? CustomerId { get; set; }
 
     /// <summary>
-    /// Gets the email address of the sale.
-    /// Must be in a valid email format for communication and authentication purposes.
+    /// Gets and sets the total amount of the sale.
+    /// This is the sum of all sale items' prices.
     /// </summary>
-    public string Email { get; private set; } = string.Empty;
+    public decimal TotalAmount { get; set; }
+    
+    /// <summary>
+    /// Gets and sets the branch where the sale occurred.
+    /// </summary>
+    public int? BranchId { get; set; }
+
+    /*
+    /// <summary>
+    /// Gets and sets the collection of items in the sale.
+    /// </summary>
+    public ICollection<SaleItem> Items { get; set; }
+    */
 
     /// <summary>
-    /// Gets the sale's phone number.
-    /// Must follow the format (XX) XXXXX-XXXX.
+    /// Gets and sets a value indicating the status.
     /// </summary>
-    public string Phone { get; private set; } = string.Empty;
+    public int Status { get; set; }
     
 }

@@ -13,19 +13,22 @@ public class CreateSaleRequestValidator : AbstractValidator<CreateSaleRequest>
     /// </summary>
     public CreateSaleRequestValidator()
     {
-        // Validates that the ExternalId is not empty and has a minimum length of 3 characters
-        RuleFor(sale => sale.ExternalId).NotEmpty().WithMessage("ExternalId is required.");
+        // Validates that the Sale Number is not empty and has a minimum length of 3 characters
+        RuleFor(sale => sale.Number).NotEmpty().WithMessage("Number is required.");
         
-        // Validates that the Name is not empty and has a minimum length of 3 characters
-        RuleFor(sale => sale.Name).NotEmpty().WithMessage("Sale name is required.");
+        // Validates that the Sale Date is not empty and is greater than or equal to DateTime.UtcNow 
+        RuleFor(sale => sale.Date).NotEmpty().GreaterThanOrEqualTo(DateTime.UtcNow).WithMessage("Date name is required.");
         
-        // Validates that the Address is not empty
-        RuleFor(sale => sale.Document).NotEmpty().WithMessage("Document is required.");
+        // Validates that the Customer Id is not empty
+        RuleFor(sale => sale.CustomerId).NotEmpty().WithMessage("Customer Id is required.");
         
-        // Validates that the City is not empty
-        RuleFor(sale => sale.Email).SetValidator(new EmailValidator());
+        // Validates that the Total Amount is not empty and is greater than or equal to 0 
+        RuleFor(sale => sale.TotalAmount).NotEmpty().GreaterThanOrEqualTo(0).WithMessage("Total Amount is required and greater than or equal to 0.");
         
-        // Validates that the State is not empty
-        RuleFor(sale => sale.Phone).Matches(@"^\+?[1-9]\d{1,14}$");
+        // Validates that the Branch Id is not empty
+        RuleFor(sale => sale.BranchId).NotEmpty().WithMessage("Branch Id is required.");
+        
+        // Validates that the Status is not empty
+        RuleFor(sale => sale.Status).NotEmpty().WithMessage("Status is required.");
     }
 }

@@ -1,13 +1,17 @@
 using Ambev.DeveloperEvaluation.Application.Products.CreateProducts;
 using Ambev.DeveloperEvaluation.Application.Products.DeleteProducts;
 using Ambev.DeveloperEvaluation.Application.Products.GetProducts;
+using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using UpdateProductRequest = Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct.UpdateProductRequest;
+using UpdateProductResponse = Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct.UpdateProductResponse;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products;
 
@@ -144,5 +148,46 @@ public class ProductsController : BaseController
         }
     }
     
+    /// <summary>
+    /// Updates an existing product
+    /// </summary>
+    /// <param name="id">The unique identifier of the product to update</param>
+    /// <param name="request">The product update request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Success response if the product was updated</returns>
+    [HttpPut("{id}")]
+    [ProducesResponseType(typeof(ApiResponseWithData<UpdateProductResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateProduct([FromRoute] Guid id, [FromBody] UpdateProductRequest request, CancellationToken cancellationToken)
+    {
+        request.Id = id;
+        var validator = new UpdateProductRequestValidator();
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+        if (!validationResult.IsValid)
+            return BadRequest(validationResult.Errors);
+
+        var command = _mapper.Map<UpdateProductCommand>(request);
     
+        try
+        {
+            var response = await _mediator.Send(command, cancellationToken);
+        
+            return Ok(new ApiResponseWithData<UpdateProductResponse>
+            {
+                Success = true,
+                Message = "Product updated successfully",
+                Data = _mapper.Map<UpdateProductResponse>(response)
+            });
+        }
+        catch (Exception e)
+        {
+            return NotFound(new ApiResponse
+            {
+                Success = false,
+                Message = "Product not found"
+            });
+        }
+    }
 }

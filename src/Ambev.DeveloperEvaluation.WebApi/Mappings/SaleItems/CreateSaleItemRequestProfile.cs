@@ -1,5 +1,6 @@
 using Ambev.DeveloperEvaluation.Application.SaleItems.CreateSaleItem;
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.CreateSaleItem;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 using AutoMapper;
 

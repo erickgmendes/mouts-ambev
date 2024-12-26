@@ -2,13 +2,17 @@ using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.Application.Sales.CreateSales;
 using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
+using Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
+using Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using UpdateSaleRequest = Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale.UpdateSaleRequest;
+using UpdateSaleResponse = Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale.UpdateSaleResponse;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales;
 
@@ -145,5 +149,46 @@ public class SaleController : BaseController
         }
     }
     
+    /// <summary>
+    /// Updates an existing sale
+    /// </summary>
+    /// <param name="id">The unique identifier of the sale to update</param>
+    /// <param name="request">The sale update request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Success response if the sale was updated</returns>
+    [HttpPut("{id}")]
+    [ProducesResponseType(typeof(ApiResponseWithData<UpdateSaleResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateSale([FromRoute] Guid id, [FromBody] UpdateSaleRequest request, CancellationToken cancellationToken)
+    {
+        request.Id = id;
+        var validator = new UpdateSaleRequestValidator();
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+        if (!validationResult.IsValid)
+            return BadRequest(validationResult.Errors);
+
+        var command = _mapper.Map<UpdateSaleCommand>(request);
     
+        try
+        {
+            var response = await _mediator.Send(command, cancellationToken);
+        
+            return Ok(new ApiResponseWithData<UpdateSaleResponse>
+            {
+                Success = true,
+                Message = "Sale updated successfully",
+                Data = _mapper.Map<UpdateSaleResponse>(response)
+            });
+        }
+        catch (Exception e)
+        {
+            return NotFound(new ApiResponse
+            {
+                Success = false,
+                Message = "Sale not found"
+            });
+        }
+    }
 }

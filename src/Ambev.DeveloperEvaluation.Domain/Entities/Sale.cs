@@ -1,5 +1,6 @@
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Validation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
@@ -25,25 +26,25 @@ public class Sale: BaseEntity
     public Customer? Customer { get; private set; }
 
     /// <summary>
+    /// Gets the total amount of the sale.
+    /// This is the sum of all sale items' prices.
+    /// </summary>
+    public decimal TotalAmount { get; private set; }
+    
+    /// <summary>
     /// Gets the branch where the sale occurred.
     /// </summary>
     public Branch? Branch { get; private set; }
 
     /// <summary>
-    /// Gets the total amount of the sale.
-    /// This is the sum of all sale items' prices.
-    /// </summary>
-    public decimal TotalAmount { get; private set; }
-
-    /// <summary>
-    /// Gets a value indicating whether the sale has been cancelled.
-    /// </summary>
-    public bool IsCancelled { get; private set; }
-
-    /// <summary>
     /// Gets the collection of items in the sale.
     /// </summary>
     public ICollection<SaleItem> Items { get; private set; }
+
+    /// <summary>
+    /// Gets a value indicating the status.
+    /// </summary>
+    public SaleStatus Status { get; private set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Sale"/> class.
