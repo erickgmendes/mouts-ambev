@@ -47,13 +47,25 @@ public class AuthController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<AuthenticateUserCommand>(request);
-        var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponseWithData<AuthenticateUserResponse>
+        try
         {
-            Success = true,
-            Message = "User authenticated successfully",
-            Data = _mapper.Map<AuthenticateUserResponse>(response)
-        });
+            var response = await _mediator.Send(command, cancellationToken);
+
+            return Ok(new ApiResponseWithData<AuthenticateUserResponse>
+            {
+                Success = true,
+                Message = "User authenticated successfully",
+                Data = _mapper.Map<AuthenticateUserResponse>(response)
+            });
+        }
+        catch (Exception e)
+        {
+            return NotFound(new ApiResponse
+            {
+                Success = false,
+                Message = "User not found"
+            });
+        }
     }
 }

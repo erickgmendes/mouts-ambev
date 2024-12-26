@@ -58,7 +58,7 @@ public class SaleItemController : BaseController
         return Created(string.Empty, new ApiResponseWithData<CreateSaleItemResponse>
         {
             Success = true,
-            Message = "SaleItem created successfully",
+            Message = "Sale item created successfully",
             Data = _mapper.Map<CreateSaleItemResponse>(response)
         });
     }
@@ -83,14 +83,26 @@ public class SaleItemController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<GetSaleItemCommand>(request.Id);
-        var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponseWithData<GetSaleItemResponse>
+        try
         {
-            Success = true,
-            Message = "SaleItem retrieved successfully",
-            Data = _mapper.Map<GetSaleItemResponse>(response)
-        });
+            var response = await _mediator.Send(command, cancellationToken);
+
+            return Ok(new ApiResponseWithData<GetSaleItemResponse>
+            {
+                Success = true,
+                Message = "Sale item retrieved successfully",
+                Data = _mapper.Map<GetSaleItemResponse>(response)
+            });
+        }
+        catch (Exception e)
+        {
+            return NotFound(new ApiResponse
+            {
+                Success = false,
+                Message = "Sale item not found"
+            });
+        }
     }
 
     /// <summary>
@@ -113,13 +125,25 @@ public class SaleItemController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<DeleteSaleItemCommand>(request.Id);
-        await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponse
+        try
         {
-            Success = true,
-            Message = "SaleItem deleted successfully"
-        });
+            await _mediator.Send(command, cancellationToken);
+
+            return Ok(new ApiResponse
+            {
+                Success = true,
+                Message = "Sale item deleted successfully"
+            });
+        }
+        catch (Exception e)
+        {
+            return NotFound(new ApiResponse
+            {
+                Success = false,
+                Message = "Sale item not found"
+            });
+        }
     }
     
     

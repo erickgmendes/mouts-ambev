@@ -82,14 +82,26 @@ public class SaleController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<GetSaleCommand>(request.Id);
-        var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponseWithData<GetSaleResponse>
+        try
         {
-            Success = true,
-            Message = "Sale retrieved successfully",
-            Data = _mapper.Map<GetSaleResponse>(response)
-        });
+            var response = await _mediator.Send(command, cancellationToken);
+
+            return Ok(new ApiResponseWithData<GetSaleResponse>
+            {
+                Success = true,
+                Message = "Sale retrieved successfully",
+                Data = _mapper.Map<GetSaleResponse>(response)
+            });
+        }
+        catch (Exception e)
+        {
+            return NotFound(new ApiResponse
+            {
+                Success = false,
+                Message = "Sale not found"
+            });
+        }
     }
 
     /// <summary>
@@ -112,13 +124,25 @@ public class SaleController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<DeleteSaleCommand>(request.Id);
-        await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponse
+        try
         {
-            Success = true,
-            Message = "Sale deleted successfully"
-        });
+            await _mediator.Send(command, cancellationToken);
+
+            return Ok(new ApiResponse
+            {
+                Success = true,
+                Message = "Sale deleted successfully"
+            });
+        }
+        catch (Exception e)
+        {
+            return NotFound(new ApiResponse
+            {
+                Success = false,
+                Message = "Sale not found"
+            });
+        }
     }
     
     

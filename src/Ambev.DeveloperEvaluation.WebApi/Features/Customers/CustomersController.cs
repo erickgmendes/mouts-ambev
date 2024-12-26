@@ -81,14 +81,26 @@ public class CustomersController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<GetCustomerCommand>(request.Id);
-        var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponseWithData<GetCustomerResponse>
+        try
         {
-            Success = true,
-            Message = "Customer retrieved successfully",
-            Data = _mapper.Map<GetCustomerResponse>(response)
-        });
+            var response = await _mediator.Send(command, cancellationToken);
+
+            return Ok(new ApiResponseWithData<GetCustomerResponse>
+            {
+                Success = true,
+                Message = "Customer retrieved successfully",
+                Data = _mapper.Map<GetCustomerResponse>(response)
+            });
+        }
+        catch (Exception e)
+        {
+            return NotFound(new ApiResponse
+            {
+                Success = false,
+                Message = "Customer not found"
+            });
+        }
     }
 
     /// <summary>
@@ -111,13 +123,25 @@ public class CustomersController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<DeleteCustomerCommand>(request.Id);
-        await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponse
+        try
         {
-            Success = true,
-            Message = "Customer deleted successfully"
-        });
+            await _mediator.Send(command, cancellationToken);
+
+            return Ok(new ApiResponse
+            {
+                Success = true,
+                Message = "Customer deleted successfully"
+            });
+        }
+        catch (Exception e)
+        {
+            return NotFound(new ApiResponse
+            {
+                Success = false,
+                Message = "Customer not found"
+            });
+        }
     }
     
     

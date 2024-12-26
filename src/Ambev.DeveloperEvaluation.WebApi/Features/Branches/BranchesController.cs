@@ -81,14 +81,25 @@ public class BranchesController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<GetBranchCommand>(request.Id);
-        var response = await _mediator.Send(command, cancellationToken);
-
-        return Ok(new ApiResponseWithData<GetBranchResponse>
+        try
         {
-            Success = true,
-            Message = "Branch retrieved successfully",
-            Data = _mapper.Map<GetBranchResponse>(response)
-        });
+            var response = await _mediator.Send(command, cancellationToken);
+            
+            return Ok(new ApiResponseWithData<GetBranchResponse>
+            {
+                Success = true,
+                Message = "Branch retrieved successfully",
+                Data = _mapper.Map<GetBranchResponse>(response)
+            });
+        }
+        catch (Exception e)
+        {
+            return NotFound(new ApiResponse
+            {
+                Success = false,
+                Message = "Branch not found"
+            });
+        }
     }
 
     /// <summary>
@@ -111,13 +122,25 @@ public class BranchesController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<DeleteBranchCommand>(request.Id);
-        await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponse
+        try
         {
-            Success = true,
-            Message = "Branch deleted successfully"
-        });
+            await _mediator.Send(command, cancellationToken);
+
+            return Ok(new ApiResponse
+            {
+                Success = true,
+                Message = "Branch deleted successfully"
+            });
+        }
+        catch (Exception e)
+        {
+            return NotFound(new ApiResponse
+            {
+                Success = false,
+                Message = "Branch not found"
+            });
+        }    
     }
     
     
