@@ -9,5 +9,6 @@ public class AuthenticateUserRequestProfile : Profile
     public AuthenticateUserRequestProfile()
     {
         CreateMap<AuthenticateUserRequest, AuthenticateUserCommand>();
+        CreateMap<AuthenticateUserResult, AuthenticateUserResponse>();
     }
 }
