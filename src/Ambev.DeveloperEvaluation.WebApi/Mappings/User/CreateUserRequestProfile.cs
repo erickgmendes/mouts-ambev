@@ -4,7 +4,7 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Users.CreateUser;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetUser;
 using AutoMapper;
 
-namespace Ambev.DeveloperEvaluation.WebApi.Mappings;
+namespace Ambev.DeveloperEvaluation.WebApi.Mappings.User;
 
 public class CreateUserRequestProfile : Profile
 {

@@ -1,4 +1,3 @@
-using Ambev.DeveloperEvaluation.Application.Branchs.GetBranch;
 using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.Application.Branches.GetBranch;

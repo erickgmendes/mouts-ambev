@@ -1,3 +1,4 @@
+using Ambev.DeveloperEvaluation.Application.Branches.GetBranch;
 using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Branches.GetBranch;
@@ -12,7 +13,7 @@ public class GetBranchProfile : Profile
     /// </summary>
     public GetBranchProfile()
     {
-        CreateMap<Guid, Application.Branchs.GetBranch.GetBranchCommand>()
-            .ConstructUsing(id => new Application.Branchs.GetBranch.GetBranchCommand(id));
+        CreateMap<Guid, GetBranchCommand>()
+            .ConstructUsing(id => new GetBranchCommand(id));
     }
 }

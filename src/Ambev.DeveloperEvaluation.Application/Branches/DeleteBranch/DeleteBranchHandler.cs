@@ -1,4 +1,3 @@
-using Ambev.DeveloperEvaluation.Application.Branchs.DeleteBranch;
 using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;

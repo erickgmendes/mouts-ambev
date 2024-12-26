@@ -1,4 +1,4 @@
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Branchs.GetBranch;
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Branches.GetBranch;
 
 /// <summary>
 /// Request model for getting a branch by ID

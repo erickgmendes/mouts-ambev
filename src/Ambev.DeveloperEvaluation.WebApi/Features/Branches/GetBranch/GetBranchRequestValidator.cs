@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Branchs.GetBranch;
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Branches.GetBranch;
 
 /// <summary>
 /// Validator for GetBranchRequest

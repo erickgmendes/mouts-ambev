@@ -1,4 +1,3 @@
-using Ambev.DeveloperEvaluation.Application.Branchs.CreateBranch;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using FluentValidation;
 using MediatR;
