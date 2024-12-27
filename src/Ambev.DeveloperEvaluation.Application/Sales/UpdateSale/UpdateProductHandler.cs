@@ -7,30 +7,49 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 
 public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, UpdateSaleResult>
 {
-    private readonly ISaleRepository _repository;
+    private readonly ISaleRepository _saleRepository;
+    private readonly ICustomerRepository _customerRepository;
+    private readonly IBranchRepository _branchRepository;
     private readonly IMapper _mapper;
 
-    public UpdateSaleHandler(ISaleRepository repository, IMapper mapper)
+    public UpdateSaleHandler(
+        ISaleRepository saleRepository,
+        ICustomerRepository customerRepository,
+        IBranchRepository branchRepository,
+        IMapper mapper
+        )
     {
-        _repository = repository;
+        _saleRepository = saleRepository;
+        _customerRepository = customerRepository;
+        _branchRepository = branchRepository;
         _mapper = mapper;
     }
 
     public async Task<UpdateSaleResult> Handle(UpdateSaleCommand command, CancellationToken cancellationToken)
     {
-        var sale = await _repository.GetByIdAsync(command.Id);
+        var sale = await _saleRepository.GetByIdAsync(command.Id);
         
         if (sale == null)
             throw new Exception("Sale not found");
+
+        if (!command.CustomerId.HasValue) 
+            throw new ArgumentException("CustomerId cannot be null");
+        var customer = _customerRepository.GetByIdAsync(command.CustomerId.Value, cancellationToken).Result;
+        
+        if (!command.BranchId.HasValue) 
+            throw new ArgumentException("BranchId cannot be null");
+        var branch = _branchRepository.GetByIdAsync(command.BranchId.Value, cancellationToken).Result;
 
         sale.Update(
             command.Number,
             command.Date,
             command.TotalAmount,
-            (SaleStatus)command.Status
+            customer,
+            branch,
+            command.Status
         );
 
-        await _repository.UpdateAsync(sale);
+        await _saleRepository.UpdateAsync(sale);
 
         return _mapper.Map<UpdateSaleResult>(sale);
     }

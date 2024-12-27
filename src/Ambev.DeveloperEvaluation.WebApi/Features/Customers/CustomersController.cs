@@ -18,8 +18,9 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Customers;
 /// <summary>
 /// Controller for managing customer operations
 /// </summary>
-[ApiController]
-[Route("api/[controller]")]
+// [ApiController]
+// [Route("api/[controller]")]
+/*
 public class CustomersController : BaseController
 {
 
@@ -190,3 +191,4 @@ public class CustomersController : BaseController
         }
     }
 }
+*/

@@ -25,6 +25,5 @@ public class CreateSaleCommandValidator: AbstractValidator<CreateSaleCommand>
         RuleFor(sale => sale.Date).NotEmpty();
         RuleFor(sale => sale.CustomerId).NotEmpty();
         RuleFor(sale => sale.BranchId).NotEmpty();
-        RuleFor(sale => sale.TotalAmount).NotEmpty();
     }
 }

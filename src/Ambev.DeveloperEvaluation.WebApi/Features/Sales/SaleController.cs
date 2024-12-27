@@ -10,6 +10,7 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using UpdateSaleRequest = Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale.UpdateSaleRequest;
 using UpdateSaleResponse = Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale.UpdateSaleResponse;
 
@@ -57,6 +58,8 @@ public class SaleController : BaseController
         var command = _mapper.Map<CreateSaleCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
+        Log.Information("Sale created successfully");
+        
         return Created(string.Empty, new ApiResponseWithData<CreateSaleResponse>
         {
             Success = true,
@@ -98,10 +101,11 @@ public class SaleController : BaseController
         }
         catch (Exception e)
         {
+            Log.Error(e, "Error occured while getting sale");
             return NotFound(new ApiResponse
             {
                 Success = false,
-                Message = "Sale not found"
+                Message = e.Message
             });
         }
     }
@@ -139,10 +143,11 @@ public class SaleController : BaseController
         }
         catch (Exception e)
         {
+            Log.Error(e, "Exception occured while trying to delete sale");
             return NotFound(new ApiResponse
             {
                 Success = false,
-                Message = "Sale not found"
+                Message = e.Message
             });
         }
     }
@@ -160,7 +165,6 @@ public class SaleController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateSale([FromRoute] Guid id, [FromBody] UpdateSaleRequest request, CancellationToken cancellationToken)
     {
-        request.Id = id;
         var validator = new UpdateSaleRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -168,11 +172,14 @@ public class SaleController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<UpdateSaleCommand>(request);
-    
+        command.SetId(id);
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-        
+
+            var status = response.Status == 0 ? "updated" : "canceled";
+            Log.Information($"Sale {status} successfully");
+            
             return Ok(new ApiResponseWithData<UpdateSaleResponse>
             {
                 Success = true,
@@ -182,10 +189,11 @@ public class SaleController : BaseController
         }
         catch (Exception e)
         {
+            Log.Error(e, "Exception occured while updating sale");
             return NotFound(new ApiResponse
             {
                 Success = false,
-                Message = "Sale not found"
+                Message = e.Message
             });
         }
     }

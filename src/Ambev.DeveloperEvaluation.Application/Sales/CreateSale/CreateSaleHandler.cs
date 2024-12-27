@@ -63,9 +63,8 @@ public class CreateSaleHandler: IRequestHandler<CreateSaleCommand, CreateSaleRes
             throw new ArgumentException("BranchId cannot be null");
         sale.SetBranch(_branchRepository.GetByIdAsync(command.BranchId.Value, cancellationToken).Result);
 
-        if (!command.Status.HasValue) 
-            throw new ArgumentException("Status cannot be null");
-        sale.SetStatus(command.Status);
+        const int statusNotCanceled = 0;
+        sale.SetStatus(statusNotCanceled);
         
         var createdSale = await _saleRepository.CreateAsync(sale, cancellationToken);
         return _mapper.Map<CreateSaleResult>(createdSale);

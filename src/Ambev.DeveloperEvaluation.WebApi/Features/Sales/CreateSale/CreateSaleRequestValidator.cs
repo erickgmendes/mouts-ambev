@@ -15,10 +15,8 @@ public class CreateSaleRequestValidator : AbstractValidator<CreateSaleRequest>
     public CreateSaleRequestValidator()
     {
         RuleFor(sale => sale.Number).NotEmpty().WithMessage("Number is required.");
-        RuleFor(sale => sale.Date).NotEmpty();
+        RuleFor(sale => sale.Date).NotEmpty().WithMessage("Date is required.");
         RuleFor(sale => sale.CustomerId).NotEmpty().WithMessage("Customer Id is required.");
-        RuleFor(sale => sale.TotalAmount).NotEmpty().GreaterThanOrEqualTo(0).WithMessage("Total Amount is required and greater than or equal to 0.");
         RuleFor(sale => sale.BranchId).NotEmpty().WithMessage("Branch Id is required.");
-        RuleFor(sale => sale.Status).NotNull().WithMessage("Status is required.");
     }
 }

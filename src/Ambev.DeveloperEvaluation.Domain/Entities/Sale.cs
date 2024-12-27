@@ -79,14 +79,6 @@ public class Sale: BaseEntity
         return $"Sale: {Number}, Total Amount: {TotalAmount:C}, Date: {Date:yyyy-MM-dd}";
     }
 
-    public void Update(string number, DateTime date, decimal totalAmount, SaleStatus status)
-    {
-        this.Number = number;
-        this.Date = date;
-        this.TotalAmount = totalAmount;
-        this.Status = status;
-    }
-
     public void SetCustomer(Customer? customer)
     {
         Customer = customer ?? throw new ArgumentException("Customer cannot be null");
@@ -103,5 +95,15 @@ public class Sale: BaseEntity
             throw new ArgumentException("Status cannot be null");
             
         Status = (SaleStatus)statusValue;
+    }
+
+    public void Update(string number, DateTime date, decimal totalAmount, Customer? customer, Branch? branch, int? status)
+    {
+        this.Number = number;
+        this.Date = date;
+        this.TotalAmount = totalAmount;
+        SetStatus(status);
+        SetBranch(branch);
+        SetCustomer(customer);
     }
 }
