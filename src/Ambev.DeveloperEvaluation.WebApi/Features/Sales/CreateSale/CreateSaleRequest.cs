@@ -23,16 +23,16 @@ public class CreateSaleRequest
     public Guid? CustomerId { get; set; }
 
     /// <summary>
+    /// Gets and sets the branch where the sale occurred.
+    /// </summary>
+    public Guid? BranchId { get; set; }
+    
+    /// <summary>
     /// Gets and sets the total amount of the sale.
     /// This is the sum of all sale items' prices.
     /// </summary>
     public decimal TotalAmount { get; set; }
     
-    /// <summary>
-    /// Gets and sets the branch where the sale occurred.
-    /// </summary>
-    public Guid? BranchId { get; set; }
-
     /*
     /// <summary>
     /// Gets and sets the collection of items in the sale.
@@ -43,6 +43,6 @@ public class CreateSaleRequest
     /// <summary>
     /// Gets and sets a value indicating the status.
     /// </summary>
-    public SaleStatus Status { get; set; }
+    public int? Status { get; set; }
     
 }

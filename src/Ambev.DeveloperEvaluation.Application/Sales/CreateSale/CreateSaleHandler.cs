@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
@@ -39,6 +40,9 @@ public class CreateSaleHandler: IRequestHandler<CreateSaleCommand, CreateSaleRes
     /// <returns>The created sale details</returns>
     public async Task<CreateSaleResult> Handle(CreateSaleCommand command, CancellationToken cancellationToken)
     {
+        if (command == null)
+            throw new ValidationException("Command cannot be null.");
+        
         var validator = new CreateSaleCommandValidator();
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
@@ -50,15 +54,20 @@ public class CreateSaleHandler: IRequestHandler<CreateSaleCommand, CreateSaleRes
             throw new InvalidOperationException($"Sale with external Id {command.Number} already exists");
 
         var sale = _mapper.Map<Sale>(command);
+
+        if (!command.CustomerId.HasValue) 
+            throw new ArgumentException("CustomerId cannot be null");
+        sale.SetCustomer(_customerRepository.GetByIdAsync(command.CustomerId.Value, cancellationToken).Result);
         
-        var customer = _customerRepository.GetByIdAsync(command.CustomerId.Value, cancellationToken);
-        sale.SetCustomer(customer.Result);
-        
-        var branch = _branchRepository.GetByIdAsync(command.BranchId.Value, cancellationToken);
-        sale.SetBranch(branch.Result);
+        if (!command.BranchId.HasValue) 
+            throw new ArgumentException("BranchId cannot be null");
+        sale.SetBranch(_branchRepository.GetByIdAsync(command.BranchId.Value, cancellationToken).Result);
+
+        if (!command.Status.HasValue) 
+            throw new ArgumentException("Status cannot be null");
+        sale.SetStatus(command.Status);
         
         var createdSale = await _saleRepository.CreateAsync(sale, cancellationToken);
-        var result = _mapper.Map<CreateSaleResult>(createdSale);
-        return result;
+        return _mapper.Map<CreateSaleResult>(createdSale);
     }
 }

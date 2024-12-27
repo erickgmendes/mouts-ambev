@@ -47,9 +47,9 @@ public class CreateSaleCommand : IRequest<CreateSaleResult>
     public decimal TotalAmount { get; set; }
 
     /// <summary>
-    /// Gets a value indicating whether the sale has been cancelled.
+    /// Gets and sets a value indicating the status.
     /// </summary>
-    public bool IsCancelled { get; set; }
+    public int? Status { get; set; }
 
     /*
     /// <summary>

@@ -87,14 +87,21 @@ public class Sale: BaseEntity
         this.Status = status;
     }
 
-    public void SetCustomer(Customer customer)
+    public void SetCustomer(Customer? customer)
     {
-        Customer = customer;
+        Customer = customer ?? throw new ArgumentException("Customer cannot be null");
     }
     
-    public void SetBranch(Branch branch)
+    public void SetBranch(Branch? branch)
     {
-        Branch = branch;
+        Branch = branch ?? throw new ArgumentException("Branch cannot be null");
     }
 
+    public void SetStatus(int? statusValue)
+    {
+        if (!statusValue.HasValue)
+            throw new ArgumentException("Status cannot be null");
+            
+        Status = (SaleStatus)statusValue;
+    }
 }

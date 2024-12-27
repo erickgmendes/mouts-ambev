@@ -105,7 +105,7 @@ public class SaleController : BaseController
             });
         }
     }
-
+    
     /// <summary>
     /// Deletes a sale by their ID
     /// </summary>
