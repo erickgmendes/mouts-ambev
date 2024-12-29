@@ -94,7 +94,7 @@ public class UsersController : BaseController
         }
         catch (Exception e)
         {
-            return NotFound(new ApiResponse
+            return BadRequest(new ApiResponse
             {
                 Success = false,
                 Message = "User not found"
@@ -135,7 +135,7 @@ public class UsersController : BaseController
         }
         catch (Exception e)
         {
-            return NotFound(new ApiResponse
+            return BadRequest(new ApiResponse
             {
                 Success = false,
                 Message = "User not found"

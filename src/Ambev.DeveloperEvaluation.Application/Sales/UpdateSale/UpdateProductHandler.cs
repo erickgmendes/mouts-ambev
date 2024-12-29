@@ -27,29 +27,26 @@ public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, UpdateSaleRe
 
     public async Task<UpdateSaleResult> Handle(UpdateSaleCommand command, CancellationToken cancellationToken)
     {
-        var sale = await _saleRepository.GetByIdAsync(command.Id);
+        var sale = await _saleRepository.GetByIdAsync(command.Id, cancellationToken);
         
         if (sale == null)
             throw new Exception("Sale not found");
 
         if (!command.CustomerId.HasValue) 
             throw new ArgumentException("CustomerId cannot be null");
-        var customer = _customerRepository.GetByIdAsync(command.CustomerId.Value, cancellationToken).Result;
+        var customer = await _customerRepository.GetByIdAsync(command.CustomerId.Value, cancellationToken);
+        if (customer == null) 
+            throw new NullReferenceException($"Customer with ID {command.CustomerId} not found");
         
         if (!command.BranchId.HasValue) 
             throw new ArgumentException("BranchId cannot be null");
-        var branch = _branchRepository.GetByIdAsync(command.BranchId.Value, cancellationToken).Result;
+        var branch = await _branchRepository.GetByIdAsync(command.BranchId.Value, cancellationToken);
+        if (branch == null) 
+            throw new NullReferenceException($"Branch with ID {command.BranchId} not found");
+        
+        sale.Update(command.Number, command.Date, command.TotalAmount, customer, branch, command.Status);
 
-        sale.Update(
-            command.Number,
-            command.Date,
-            command.TotalAmount,
-            customer,
-            branch,
-            command.Status
-        );
-
-        await _saleRepository.UpdateAsync(sale);
+        await _saleRepository.UpdateAsync(sale, cancellationToken);
 
         return _mapper.Map<UpdateSaleResult>(sale);
     }

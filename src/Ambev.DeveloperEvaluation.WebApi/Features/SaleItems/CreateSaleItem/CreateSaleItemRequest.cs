@@ -8,12 +8,12 @@ public class CreateSaleItemRequest
     /// <summary>
     /// Gets the sale associated with the sale item.
     /// </summary>
-    public int SaleId { get; set; }
+    public Guid SaleId { get; set; }
     
     /// <summary>
     /// Gets and sets the product associated with the sale item.
     /// </summary>
-    public int ProductId { get; set; }
+    public Guid ProductId { get; set; }
 
     /// <summary>
     /// Gets and sets the quantity of the product in the sale item.

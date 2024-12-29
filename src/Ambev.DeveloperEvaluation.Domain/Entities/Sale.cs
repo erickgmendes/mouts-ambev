@@ -106,4 +106,14 @@ public class Sale: BaseEntity
         SetBranch(branch);
         SetCustomer(customer);
     }
+
+    public void CancelSale()
+    {
+        Status = SaleStatus.Cancelled;
+    }
+
+    public bool IsCancelled()
+    {
+        return Status == SaleStatus.Cancelled;
+    }
 }

@@ -21,9 +21,18 @@ public class Program
     {
         try
         {
+            // Log.Logger = new LoggerConfiguration()
+            //     .MinimumLevel.Debug()
+            //     .WriteTo.Console()
+            //     .WriteTo.File(
+            //         path: "logs/app-.txt",
+            //         rollingInterval: RollingInterval.Day,
+            //         outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+            //     .CreateLogger();
+            
             Log.Information("Starting web application");
 
-            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+            var builder = WebApplication.CreateBuilder(args);
             builder.AddDefaultLogging();
 
             builder.Services.AddControllers();
@@ -40,15 +49,7 @@ public class Program
             );
 
             builder.Services.AddJwtAuthentication(builder.Configuration);
-
             builder.RegisterDependencies();
-
-            /*builder.Services.AddAutoMapper(
-                typeof(Program).Assembly, 
-                typeof(ApplicationLayer).Assembly,
-                typeof(UpdateCustomerProfile).Assembly
-                );*/
-            
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()
                 .Where(a => a.FullName != null && a.FullName.StartsWith("Ambev.DeveloperEvaluation")));
 
@@ -65,9 +66,7 @@ public class Program
                 cfg.AddProfile<GetSaleProfile>(); 
             });
 
-            IMapper mapper = mapperConfig.CreateMapper();
-
-            
+            //IMapper mapper = mapperConfig.CreateMapper();
             
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 

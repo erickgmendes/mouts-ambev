@@ -57,11 +57,17 @@ public class CreateSaleHandler: IRequestHandler<CreateSaleCommand, CreateSaleRes
 
         if (!command.CustomerId.HasValue) 
             throw new ArgumentException("CustomerId cannot be null");
-        sale.SetCustomer(_customerRepository.GetByIdAsync(command.CustomerId.Value, cancellationToken).Result);
+        var customer = await _customerRepository.GetByIdAsync(command.CustomerId.Value, cancellationToken);
+        if (customer == null) 
+            throw new NullReferenceException($"Customer with ID {command.CustomerId} not found");
+        sale.SetCustomer(customer);
         
         if (!command.BranchId.HasValue) 
             throw new ArgumentException("BranchId cannot be null");
-        sale.SetBranch(_branchRepository.GetByIdAsync(command.BranchId.Value, cancellationToken).Result);
+        var branch = await _branchRepository.GetByIdAsync(command.BranchId.Value, cancellationToken);
+        if (branch == null) 
+            throw new NullReferenceException($"Branch with ID {command.BranchId} not found");
+        sale.SetBranch(branch);
 
         const int statusNotCanceled = 0;
         sale.SetStatus(statusNotCanceled);

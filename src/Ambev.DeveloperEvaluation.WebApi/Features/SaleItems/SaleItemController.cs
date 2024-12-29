@@ -101,7 +101,7 @@ public class SaleItemController : BaseController
         }
         catch (Exception e)
         {
-            return NotFound(new ApiResponse
+            return BadRequest(new ApiResponse
             {
                 Success = false,
                 Message = "Sale item not found"
@@ -142,7 +142,7 @@ public class SaleItemController : BaseController
         }
         catch (Exception e)
         {
-            return NotFound(new ApiResponse
+            return BadRequest(new ApiResponse
             {
                 Success = false,
                 Message = "Sale item not found"
@@ -185,7 +185,7 @@ public class SaleItemController : BaseController
         }
         catch (Exception e)
         {
-            return NotFound(new ApiResponse
+            return BadRequest(new ApiResponse
             {
                 Success = false,
                 Message = "SaleItem not found"

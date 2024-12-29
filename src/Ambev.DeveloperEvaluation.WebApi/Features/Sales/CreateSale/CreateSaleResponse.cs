@@ -10,6 +10,7 @@ public class CreateSaleResponse
     /// </summary>
     public Guid Id { get; set; }
 
+    /*
     /// <summary>
     /// Gets and sets the sale number, which is a unique reference for the sale.
     /// </summary>
@@ -35,17 +36,17 @@ public class CreateSaleResponse
     /// Gets and sets the branch where the sale occurred.
     /// </summary>
     public Guid? BranchId { get; set; }
-
+*/
     /*
     /// <summary>
     /// Gets and sets the collection of items in the sale.
     /// </summary>
     public ICollection<SaleItem> Items { get; set; }
-    */
 
     /// <summary>
     /// Gets and sets a value indicating the status.
     /// </summary>
     public int Status { get; set; }
+    */
     
 }

@@ -100,7 +100,7 @@ public class CustomersController : BaseController
         }
         catch (Exception e)
         {
-            return NotFound(new ApiResponse
+            return BadRequest(new ApiResponse
             {
                 Success = false,
                 Message = "Customer not found"
@@ -141,7 +141,7 @@ public class CustomersController : BaseController
         }
         catch (Exception e)
         {
-            return NotFound(new ApiResponse
+            return BadRequest(new ApiResponse
             {
                 Success = false,
                 Message = "Customer not found"
@@ -183,7 +183,7 @@ public class CustomersController : BaseController
         }
         catch (Exception e)
         {
-            return NotFound(new ApiResponse
+            return BadRequest(new ApiResponse
             {
                 Success = false,
                 Message = "Customer not found"
