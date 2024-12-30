@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,16 +22,16 @@ public class SaleItemRepository: ISaleItemRepository
     }
 
     /// <summary>
-    /// Creates a new sale in the database
+    /// Creates a new sale item in the database
     /// </summary>
-    /// <param name="sale">The sale to create</param>
+    /// <param name="saleItem">The sale to create</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The created sale</returns>
-    public async Task<SaleItem> CreateAsync(SaleItem sale, CancellationToken cancellationToken = default)
+    /// <returns>The created sale item</returns>
+    public async Task<SaleItem> CreateAsync(SaleItem saleItem, CancellationToken cancellationToken = default)
     {
-        await _context.SaleItems.AddAsync(sale, cancellationToken);
+        await _context.SaleItems.AddAsync(saleItem, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
-        return sale;
+        return saleItem;
     }
 
     /// <summary>
@@ -47,11 +48,6 @@ public class SaleItemRepository: ISaleItemRepository
             .FirstOrDefaultAsync(o=> o.Id == id, cancellationToken);
     }
 
-    public async Task<SaleItem?> GetByExternalIdAsync(string externalId, CancellationToken cancellationToken = default)
-    {
-        return await _context.SaleItems.FirstOrDefaultAsync(s=> s.Product.ExternalId == externalId, cancellationToken);
-    }
-
     /// <summary>
     /// Deletes a sale from the database
     /// </summary>
@@ -60,11 +56,11 @@ public class SaleItemRepository: ISaleItemRepository
     /// <returns>True if the sale was deleted, false if not found</returns>
     public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var sale = await GetByIdAsync(id, cancellationToken);
-        if (sale == null)
+        var saleItem = await GetByIdAsync(id, cancellationToken);
+        if (saleItem == null)
             return false;
 
-        _context.SaleItems.Remove(sale);
+        _context.SaleItems.Remove(saleItem);
         await _context.SaveChangesAsync(cancellationToken);
         return true;
     }
@@ -84,4 +80,14 @@ public class SaleItemRepository: ISaleItemRepository
         await _context.SaveChangesAsync(cancellationToken);
         return saleItem;
     }
+
+    public async Task<ICollection<SaleItem>> GetBySaleIdAsync(Guid saleId, CancellationToken cancellationToken)
+    {
+        return await _context.SaleItems
+                .Include(x => x.Sale)
+                .Include(x=>x.Product)
+                .Where(s=>s.Sale.Id == saleId && s.Status == SaleItemStatus.NotCancelled)
+                .ToListAsync();
+    }
+    
 }

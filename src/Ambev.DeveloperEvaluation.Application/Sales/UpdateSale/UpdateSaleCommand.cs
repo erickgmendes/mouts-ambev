@@ -29,11 +29,6 @@ public class UpdateSaleCommand : IRequest<UpdateSaleResult>
     /// </summary>
     public Guid? BranchId { get; set; }
 
-    /// <summary>
-    /// Gets a value indicating the status.
-    /// </summary>
-    public int? Status { get; set; }
-
     public void SetId(Guid id)
     {
         Id = id;

@@ -1,3 +1,4 @@
+using Ambev.DeveloperEvaluation.Application.SaleItems.GetSaleItem;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;

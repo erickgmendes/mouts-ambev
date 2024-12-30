@@ -14,6 +14,5 @@ public class UpdateSaleRequestValidator : AbstractValidator<UpdateSaleRequest>
         RuleFor(sale => sale.Date).NotEmpty().WithMessage("Date is required.");
         RuleFor(sale => sale.CustomerId).NotEmpty().WithMessage("Customer Id is required.");
         RuleFor(sale => sale.BranchId).NotEmpty().WithMessage("Branch Id is required.");
-        RuleFor(sale => sale.Status).NotEmpty().WithMessage("Status is required.");
     }
 }

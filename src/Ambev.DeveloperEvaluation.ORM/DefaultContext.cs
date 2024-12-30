@@ -25,14 +25,9 @@ public class DefaultContext : DbContext
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // optionsBuilder.UseNpgsql("DefaultConnection",
-        //     b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.ORM"));
-        
         if (!optionsBuilder.IsConfigured)
-        {
             optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=developer_evaluation;Username=developer;Password=ev@luAt10n",
                 b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.ORM"));
-        }
     }
 }
 public class YourDbContextFactory : IDesignTimeDbContextFactory<DefaultContext>

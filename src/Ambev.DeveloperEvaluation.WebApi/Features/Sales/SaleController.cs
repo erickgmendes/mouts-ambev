@@ -211,14 +211,14 @@ public class SaleController : BaseController
     }
     
     /// <summary>
-    /// Updates an existing sale
+    /// Cancel an existing sale
     /// </summary>
-    /// <param name="id">The unique identifier of the sale to update</param>
+    /// <param name="id">The unique identifier of the sale to cancel</param>
     /// <param name="request">The sale update request</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Success response if the sale was updated</returns>
+    /// <returns>Success response if the sale was canceled</returns>
     [HttpPut("cancel/{id}")]
-    [ProducesResponseType(typeof(ApiResponseWithData<UpdateSaleResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponseWithData<CancelSaleResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> CancelSale([FromRoute] Guid id, CancellationToken cancellationToken)
@@ -234,7 +234,7 @@ public class SaleController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            const string message = "Sale updated successfully";
+            const string message = "Sale canceled successfully";
             Log.Information(message);
             
             return Ok(new ApiResponseWithData<CancelSaleResult>

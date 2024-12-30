@@ -14,8 +14,8 @@ public class CancelSaleProfile : Profile
     /// </summary>
     public CancelSaleProfile()
     {
-        CreateMap<Guid, DeleteSaleCommand>()
-            .ConstructUsing(id => new DeleteSaleCommand(id));
+        CreateMap<Guid, CancelSaleCommand>()
+            .ConstructUsing(id => new CancelSaleCommand(id));
 
         CreateMap<CancelSaleRequest, CancelSaleCommand>();
     }

@@ -10,6 +10,7 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Customers.UpdateCustomer;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Customers;
 
@@ -45,21 +46,33 @@ public class CustomersController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerRequest request, CancellationToken cancellationToken)
     {
-        var validator = new CreateCustomerRequestValidator();
-        var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-        if (!validationResult.IsValid)
-            return BadRequest(validationResult.Errors);
-
-        var command = _mapper.Map<CreateCustomerCommand>(request);
-        var response = await _mediator.Send(command, cancellationToken);
-
-        return Created(string.Empty, new ApiResponseWithData<CreateCustomerResponse>
+        try
         {
-            Success = true,
-            Message = "Customer created successfully",
-            Data = _mapper.Map<CreateCustomerResponse>(response)
-        });
+            var validator = new CreateCustomerRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<CreateCustomerCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+
+            return Created(string.Empty, new ApiResponseWithData<CreateCustomerResponse>
+            {
+                Success = true,
+                Message = "Customer created successfully",
+                Data = _mapper.Map<CreateCustomerResponse>(response)
+            });
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "Error occured while trying to create customer");
+            return BadRequest(new ApiResponse
+            {
+                Success = false,
+                Message = e.Message
+            });
+        }
     }
 
     /// <summary>

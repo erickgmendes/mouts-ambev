@@ -1,19 +1,24 @@
-namespace Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.UpdateSaleItem;
+namespace Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.CancelSaleItem;
 
 /// <summary>
-/// Represents a request to create a new saleItem in the system.
+/// Profile for mapping between Application and API CreateSaleItem responses
 /// </summary>
-public class UpdateSaleItemRequest
+public class CancelSaleItemResponse
 {
+    /// <summary>
+    /// Gets the unique identifier for the saleItem.
+    /// </summary>
+    public Guid Id { get; set; }
+
     /// <summary>
     /// Gets the sale associated with the sale item.
     /// </summary>
-    public int SaleId { get; set; }
+    public Guid SaleId { get; set; }
     
     /// <summary>
     /// Gets and sets the product associated with the sale item.
     /// </summary>
-    public int ProductId { get; set; }
+    public Guid ProductId { get; set; }
 
     /// <summary>
     /// Gets and sets the quantity of the product in the sale item.

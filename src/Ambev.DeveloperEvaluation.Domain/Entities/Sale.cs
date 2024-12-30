@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Enums;
@@ -41,6 +42,16 @@ public class Sale: BaseEntity
     public SaleStatus Status { get; set; }
 
     /// <summary>
+    /// Gets the total amount for the sale.
+    /// This value is calculated.
+    /// </summary>
+    [NotMapped]
+    public decimal TotalAmount 
+    {
+        get { return Items.Where(i=> !i.IsCancelled()).Sum(x => x.TotalAmount); }
+    }    
+    
+    /// <summary>
     /// Initializes a new instance of the <see cref="Sale"/> class.
     /// </summary>
     public Sale()
@@ -64,24 +75,9 @@ public class Sale: BaseEntity
         };
     }
 
-    /// <summary>
-    /// Returns a string representation of the sale, including the sale number and total amount.
-    /// </summary>
-    /// <returns>A string with the sale number and total amount.</returns>
-    public override string ToString()
-    {
-        return $"Sale: {Number}, Date: {Date:yyyy-MM-dd}";
-    }
-
-    public void SetCustomer(Customer? customer)
-    {
-        Customer = customer ?? throw new ArgumentException("Customer cannot be null");
-    }
+    public void SetCustomer(Customer? customer) => Customer = customer ?? throw new ArgumentException("Customer cannot be null");
     
-    public void SetBranch(Branch? branch)
-    {
-        Branch = branch ?? throw new ArgumentException("Branch cannot be null");
-    }
+    public void SetBranch(Branch? branch) => Branch = branch ?? throw new ArgumentException("Branch cannot be null");
 
     public void SetStatus(int? statusValue)
     {
@@ -91,22 +87,15 @@ public class Sale: BaseEntity
         Status = (SaleStatus)statusValue;
     }
 
-    public void Update(string number, DateTime date, Customer? customer, Branch? branch, int? status)
+    public void Update(string number, DateTime date, Customer? customer, Branch? branch)
     {
         this.Number = number;
         this.Date = date;
-        SetStatus(status);
         SetBranch(branch);
         SetCustomer(customer);
     }
 
-    public void CancelSale()
-    {
-        Status = SaleStatus.Cancelled;
-    }
+    public void Cancel() => Status = SaleStatus.Cancelled;
 
-    public bool IsCancelled()
-    {
-        return Status == SaleStatus.Cancelled;
-    }
+    public bool IsCancelled() => Status == SaleStatus.Cancelled;
 }

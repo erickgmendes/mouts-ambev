@@ -1,3 +1,4 @@
+using Ambev.DeveloperEvaluation.Application.SaleItems.GetSaleItem;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale;
@@ -36,4 +37,24 @@ public class GetSaleResult
     /// Gets and sets a value indicating the status.
     /// </summary>
     public SaleStatus Status { get; set; }
+
+    /// <summary>
+    /// Gets the Total Amount.
+    /// </summary>
+    public decimal TotalAmount { get; set; }
+    
+    /// <summary>
+    /// Gets the Items list.
+    /// </summary>
+    public ICollection<GetSaleItemResult> Items { get; set; }
+
+    public GetSaleResult()
+    {
+        Items = new List<GetSaleItemResult>();
+    }
+
+    public void AddItem(GetSaleItemResult item)
+    {
+        Items.Add(item);
+    }
 }

@@ -10,20 +10,20 @@ namespace Ambev.DeveloperEvaluation.Application.SaleItems.GetSaleItem;
 /// </summary>
 public class GetSaleItemHandler : IRequestHandler<GetSaleItemCommand, GetSaleItemResult>
 {
-    private readonly ISaleItemRepository _saleRepository;
+    private readonly ISaleItemRepository _saleItemRepository;
     private readonly IMapper _mapper;
 
     /// <summary>
     /// Initializes a new instance of GetSaleItemHandler
     /// </summary>
-    /// <param name="saleRepository">The sale repository</param>
+    /// <param name="saleItemRepository">The sale repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for GetSaleItemCommand</param>
     public GetSaleItemHandler(
-        ISaleItemRepository saleRepository,
+        ISaleItemRepository saleItemRepository,
         IMapper mapper)
     {
-        _saleRepository = saleRepository;
+        _saleItemRepository = saleItemRepository;
         _mapper = mapper;
     }
 
@@ -41,10 +41,10 @@ public class GetSaleItemHandler : IRequestHandler<GetSaleItemCommand, GetSaleIte
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var sale = await _saleRepository.GetByIdAsync(request.Id, cancellationToken);
-        if (sale == null)
+        var saleItem = await _saleItemRepository.GetByIdAsync(request.Id, cancellationToken);
+        if (saleItem == null)
             throw new KeyNotFoundException($"SaleItem with ID {request.Id} not found");
 
-        return _mapper.Map<GetSaleItemResult>(sale);
+        return _mapper.Map<GetSaleItemResult>(saleItem);
     }
 }

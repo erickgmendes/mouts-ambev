@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,14 +11,22 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 public class SaleRepository: ISaleRepository
 {
     private readonly DefaultContext _context;
-
+    private readonly ISaleItemRepository _saleItemRepository;
+    private readonly IProductRepository _productRepository;
+    
     /// <summary>
     /// Initializes a new instance of SaleRepository
     /// </summary>
     /// <param name="context">The database context</param>
-    public SaleRepository(DefaultContext context)
+    public SaleRepository(
+        DefaultContext context, 
+        ISaleItemRepository saleItemRepository,
+        IProductRepository productRepository
+        )
     {
         _context = context;
+        _saleItemRepository = saleItemRepository;
+        _productRepository = productRepository;
     }
 
     /// <summary>
@@ -44,7 +53,9 @@ public class SaleRepository: ISaleRepository
         return await _context.Sales
             .Include(x=>x.Branch)
             .Include(x=>x.Customer)
-            .FirstOrDefaultAsync(o=> o.Id == id, cancellationToken);
+            .Include(x=>x.Items)
+                .ThenInclude(x=>x.Product)
+            .FirstOrDefaultAsync(o=> o.Id == id && o.Status == SaleStatus.NotCancelled, cancellationToken);
     }
 
     /// <summary>
@@ -56,6 +67,10 @@ public class SaleRepository: ISaleRepository
     public async Task<Sale?> GetByNumberAsync(string number, CancellationToken cancellationToken = default)
     {
         return await _context.Sales
+            .Include(x=>x.Branch)
+            .Include(x=>x.Customer)
+            .Include(x=>x.Items)
+                .ThenInclude(x=>x.Product)
             .FirstOrDefaultAsync(b => b.Number == number, cancellationToken);
     }
 
@@ -90,5 +105,31 @@ public class SaleRepository: ISaleRepository
         _context.Sales.Update(sale);
         await _context.SaveChangesAsync(cancellationToken);
         return sale;
+    }
+
+    public async Task<bool> CancelSale(Sale sale, CancellationToken cancellationToken = default)
+    {
+        using var transaction = await _context.Database.BeginTransactionAsync();
+        try
+        {
+            var items = await _saleItemRepository.GetBySaleIdAsync(sale.Id, cancellationToken);
+            foreach (var saleItem in items)
+            {
+                //var product = _productRepository.GetByIdAsync(saleItem.Product.Id, cancellationToken);
+                //product.Quantity += saleItem.Quantity;
+                saleItem.Cancel();
+                await _saleItemRepository.UpdateAsync(saleItem, cancellationToken);
+            }
+            
+            sale.Cancel();
+            await UpdateAsync(sale, cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+            return true;
+        }
+        catch (Exception e)
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            throw;
+        }
     }
 }

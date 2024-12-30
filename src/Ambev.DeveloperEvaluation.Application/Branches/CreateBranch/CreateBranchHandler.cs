@@ -43,7 +43,6 @@ public class CreateBranchHandler: IRequestHandler<CreateBranchCommand, CreateBra
 
         var branch = _mapper.Map<Branch>(command);
         var createdBranch = await _branchRepository.CreateAsync(branch, cancellationToken);
-        var result = _mapper.Map<CreateBranchResult>(createdBranch);
-        return result;
+        return _mapper.Map<CreateBranchResult>(createdBranch);
     }
 }

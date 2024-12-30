@@ -10,10 +10,10 @@ public interface ISaleItemRepository
     /// <summary>
     /// Creates a new sale in the repository
     /// </summary>
-    /// <param name="sale">The sale to create</param>
+    /// <param name="saleItem">The sale to create</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The created sale</returns>
-    Task<SaleItem> CreateAsync(SaleItem sale, CancellationToken cancellationToken = default);
+    Task<SaleItem> CreateAsync(SaleItem saleItem, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a sale by their unique identifier
@@ -22,14 +22,6 @@ public interface ISaleItemRepository
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The sale if found, null otherwise</returns>
     Task<SaleItem?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Retrieves a sale by their external id
-    /// </summary>
-    /// <param name="externalId">The external id to search for</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The sale if found, null otherwise</returns>
-    Task<SaleItem?> GetByExternalIdAsync(string externalId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a sale from the repository
@@ -46,4 +38,13 @@ public interface ISaleItemRepository
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The saleItem if found, null otherwise</returns>
     Task<SaleItem?> UpdateAsync(SaleItem saleItem, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Gets salesItem by Sale Id 
+    /// </summary>
+    /// <param name="SaleId">The unique identifier of the sale</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The saleItem list if found, null otherwise</returns>
+    Task<ICollection<SaleItem>> GetBySaleIdAsync(Guid saleId, CancellationToken cancellationToken);
+
 }

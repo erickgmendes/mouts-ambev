@@ -1,15 +1,17 @@
+using Ambev.DeveloperEvaluation.Application.SaleItems.CancelSaleItem;
 using Ambev.DeveloperEvaluation.Application.SaleItems.CreateSaleItem;
 using Ambev.DeveloperEvaluation.Application.SaleItems.DeleteSaleItem;
 using Ambev.DeveloperEvaluation.Application.SaleItems.GetSaleItem;
-using Ambev.DeveloperEvaluation.Application.SaleItems.UpdateSaleItem;
+using Ambev.DeveloperEvaluation.Application.Sales.CancelSale;
 using Ambev.DeveloperEvaluation.WebApi.Common;
+using Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.CancelSaleItem;
 using Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.DeleteSaleItem;
 using Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.CreateSaleItem;
 using Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.GetSaleItem;
-using Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.UpdateSaleItem;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.SaleItems;
 
@@ -45,21 +47,35 @@ public class SaleItemController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateSaleItem([FromBody] CreateSaleItemRequest request, CancellationToken cancellationToken)
     {
-        var validator = new CreateSaleItemRequestValidator();
-        var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-        if (!validationResult.IsValid)
-            return BadRequest(validationResult.Errors);
-
-        var command = _mapper.Map<CreateSaleItemCommand>(request);
-        var response = await _mediator.Send(command, cancellationToken);
-
-        return Created(string.Empty, new ApiResponseWithData<CreateSaleItemResponse>
+        try
         {
-            Success = true,
-            Message = "Sale item created successfully",
-            Data = _mapper.Map<CreateSaleItemResponse>(response)
-        });
+            var validator = new CreateSaleItemRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<CreateSaleItemCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+            const string message = "Sale item canceled successfully";
+            Log.Information(message);
+            
+            return Created(string.Empty, new ApiResponseWithData<CreateSaleItemResponse>
+            {
+                Success = true,
+                Message = message,
+                Data = _mapper.Map<CreateSaleItemResponse>(response)
+            });
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "Error occured while trying to create sale item");
+            return BadRequest(new ApiResponse
+            {
+                Success = false,
+                Message = e.Message
+            });
+        }
     }
 
     /// <summary>
@@ -81,10 +97,10 @@ public class SaleItemController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = _mapper.Map<GetSaleItemCommand>(request.Id);
 
         try
         {
+            var command = _mapper.Map<GetSaleItemCommand>(request.Id);
             var response = await _mediator.Send(command, cancellationToken);
 
             return Ok(new ApiResponseWithData<GetSaleItemResponse>
@@ -146,36 +162,37 @@ public class SaleItemController : BaseController
     }
     
     /// <summary>
-    /// Updates an existing saleItem
+    /// Cancel an existing sale item 
     /// </summary>
-    /// <param name="id">The unique identifier of the saleItem to update</param>
-    /// <param name="request">The saleItem update request</param>
+    /// <param name="id">The unique identifier of the sale item to cancel</param>
+    /// <param name="request">The sale item update request</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Success response if the saleItem was updated</returns>
-    [HttpPut("{id}")]
-    [ProducesResponseType(typeof(ApiResponseWithData<UpdateSaleItemResponse>), StatusCodes.Status200OK)]
+    /// <returns>Success response if the sale item was canceled</returns>
+    [HttpPut("cancel/{id}")]
+    [ProducesResponseType(typeof(ApiResponseWithData<CancelSaleItemResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateSaleItem([FromRoute] Guid id, [FromBody] UpdateSaleItemRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> CancelSaleItem([FromRoute] Guid id, CancellationToken cancellationToken)
     {
-        var validator = new UpdateSaleItemRequestValidator();
+        var request = new CancelSaleItemRequest { Id = id };
+        var validator = new CancelSaleItemRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = _mapper.Map<UpdateSaleItemCommand>(request);
-    
+        var command = _mapper.Map<CancelSaleItemCommand>(request);
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
-            command.Id = id;
-        
-            return Ok(new ApiResponseWithData<UpdateSaleItemResponse>
+            const string message = "Sale Item canceled successfully";
+            Log.Information(message);
+            
+            return Ok(new ApiResponseWithData<CancelSaleItemResult>
             {
                 Success = true,
-                Message = "SaleItem updated successfully",
-                Data = _mapper.Map<UpdateSaleItemResponse>(response)
+                Message = message,
+                Data = _mapper.Map<CancelSaleItemResult>(response)
             });
         }
         catch (Exception e)

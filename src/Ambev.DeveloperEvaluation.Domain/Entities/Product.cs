@@ -53,15 +53,6 @@ public class Product: BaseEntity
         };
     }
 
-    /// <summary>
-    /// Returns a string representation of the product, including the name and price.
-    /// </summary>
-    /// <returns>A string with the product's name and price.</returns>
-    public override string ToString()
-    {
-        return $"Product: {Name}, Price: {Price:C}";
-    }
-
     public void Update(string externalId, string name, string description, decimal price)
     {
         this.ExternalId = externalId;

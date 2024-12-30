@@ -46,4 +46,6 @@ public interface ISaleRepository
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The sale if found, null otherwise</returns>
     Task<Sale?> UpdateAsync(Sale sale, CancellationToken cancellationToken = default);
+
+    Task<bool> CancelSale(Sale sale, CancellationToken cancellationToken = default);
 }

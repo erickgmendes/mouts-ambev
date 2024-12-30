@@ -1,13 +1,13 @@
-namespace Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.CreateSaleItem;
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CancelSale;
 
 /// <summary>
 /// Profile for mapping between Application and API CreateSale responses
 /// </summary>
-public class CreateSaleItemResponse
+public class CancelSaleResponse
 {
     /// <summary>
     /// Gets the unique identifier for the sale.
     /// </summary>
     public Guid Id { get; set; }
-    
+
 }

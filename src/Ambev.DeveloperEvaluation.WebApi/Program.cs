@@ -64,8 +64,11 @@ public class Program
 
             var mapperConfig = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<GetSaleProfile>(); 
+                //cfg.AddProfile<GetSaleProfile>();
+                cfg.AddMaps(typeof(GetSaleProfile).Assembly);
             });
+
+            //mapperConfig.AssertConfigurationIsValid();
 
             //IMapper mapper = mapperConfig.CreateMapper();
             builder.Services.AddAutoMapper(typeof(GetBranchProfile).Assembly);

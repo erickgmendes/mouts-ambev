@@ -10,6 +10,7 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Branches.UpdateBranch;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Branches;
 
@@ -45,21 +46,33 @@ public class BranchesController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateBranch([FromBody] CreateBranchRequest request, CancellationToken cancellationToken)
     {
-        var validator = new CreateBranchRequestValidator();
-        var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-        if (!validationResult.IsValid)
-            return BadRequest(validationResult.Errors);
-
-        var command = _mapper.Map<CreateBranchCommand>(request);
-        var response = await _mediator.Send(command, cancellationToken);
-
-        return Created(string.Empty, new ApiResponseWithData<CreateBranchResponse>
+        try
         {
-            Success = true,
-            Message = "Branch created successfully",
-            Data = _mapper.Map<CreateBranchResponse>(response)
-        });
+            var validator = new CreateBranchRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<CreateBranchCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+
+            return Created(string.Empty, new ApiResponseWithData<CreateBranchResponse>
+            {
+                Success = true,
+                Message = "Branch created successfully",
+                Data = _mapper.Map<CreateBranchResponse>(response)
+            });
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "Error occured while trying to create branch");
+            return BadRequest(new ApiResponse
+            {
+                Success = false,
+                Message = e.Message
+            });
+        }
     }
 
     /// <summary>

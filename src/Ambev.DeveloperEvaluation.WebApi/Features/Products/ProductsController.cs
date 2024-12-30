@@ -10,6 +10,7 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products;
 
@@ -46,21 +47,33 @@ public class ProductsController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequest request, CancellationToken cancellationToken)
     {
-        var validator = new CreateProductRequestValidator();
-        var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-        if (!validationResult.IsValid)
-            return BadRequest(validationResult.Errors);
-
-        var command = _mapper.Map<CreateProductCommand>(request);
-        var response = await _mediator.Send(command, cancellationToken);
-
-        return Created(string.Empty, new ApiResponseWithData<CreateProductResponse>
+        try
         {
-            Success = true,
-            Message = "Product created successfully",
-            Data = _mapper.Map<CreateProductResponse>(response)
-        });
+            var validator = new CreateProductRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<CreateProductCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+
+            return Created(string.Empty, new ApiResponseWithData<CreateProductResponse>
+            {
+                Success = true,
+                Message = "Product created successfully",
+                Data = _mapper.Map<CreateProductResponse>(response)
+            });
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "Error occured while trying to create product");
+            return BadRequest(new ApiResponse
+            {
+                Success = false,
+                Message = e.Message
+            });
+        }
     }
 
     /// <summary>

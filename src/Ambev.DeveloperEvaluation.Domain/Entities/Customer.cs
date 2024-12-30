@@ -60,15 +60,6 @@ public class Customer: BaseEntity
         };
     }
 
-    /// <summary>
-    /// Returns a string representation of the customer, including the name and document.
-    /// </summary>
-    /// <returns>A string with the customer's name and document.</returns>
-    public override string ToString()
-    {
-        return $"Customer: {Name}, Document: {Document}";
-    }
-
     public void Update(string name, string document, string email, string phone)
     {
         this.Name = name;

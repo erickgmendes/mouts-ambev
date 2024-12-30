@@ -25,15 +25,4 @@ public class UpdateSaleRequest
     /// </summary>
     public Guid? BranchId { get; set; }
     
-    /// <summary>
-    /// Gets and sets the total amount of the sale.
-    /// This is the sum of all sale items' prices.
-    /// </summary>
-    public decimal TotalAmount { get; set; }
-
-    /// <summary>
-    /// Gets a value indicating the status.
-    /// </summary>
-    public int? Status { get; set; }
-    
 }

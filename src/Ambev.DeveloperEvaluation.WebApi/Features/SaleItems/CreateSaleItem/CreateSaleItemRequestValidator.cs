@@ -14,19 +14,13 @@ public class CreateSaleItemRequestValidator : AbstractValidator<CreateSaleItemRe
     /// </summary>
     public CreateSaleItemRequestValidator()
     {
+        // Validates that the SaleId is not empty
+        RuleFor(saleItem => saleItem.SaleId).NotEmpty();
+
+        // Validates that the ProductId is not empty
+        RuleFor(saleItem => saleItem.ProductId).NotEmpty();
+
         // Validates that the Quantity is not empty and Greater than 0
-        RuleFor(sale => sale.Quantity).NotEmpty().GreaterThan(0);
-        
-        // Validates that the UnitPrice is not empty and Greater than 0
-        RuleFor(sale => sale.UnitPrice).NotEmpty().GreaterThan(0);
-        
-        // Validates that the Discount is not empty and Greater than or equal to 0
-        RuleFor(sale => sale.Discount).NotEmpty().GreaterThanOrEqualTo(0);
-        
-        // Validates that the TotalAmount  is not empty and Greater than or equal to 0
-        RuleFor(sale => sale.TotalAmount).NotEmpty().GreaterThanOrEqualTo(0);
-        
-        // Validates that the State is not empty
-        RuleFor(sale => sale.ProductId).NotEmpty();
+        RuleFor(saleItem => saleItem.Quantity).NotEmpty().GreaterThan(0);
     }
 }

@@ -61,15 +61,6 @@ public class Branch: BaseEntity
         };
     }
 
-    /// <summary>
-    /// Returns a string representation of the branch, including its name and city.
-    /// </summary>
-    /// <returns>A string with the branch name and city.</returns>
-    public override string ToString()
-    {
-        return $"{Name}, {City}, {State}";
-    }
-
     public void Update(string name, string address, string city, string state, string postalCode)
     {
         this.Name = name;

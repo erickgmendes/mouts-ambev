@@ -1,4 +1,7 @@
+using Ambev.DeveloperEvaluation.Application.SaleItems.GetSaleItem;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
+using Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.GetSaleItem;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
 
@@ -35,12 +38,10 @@ public class GetSaleResponse
     /// </summary>
     public Guid? BranchId { get; set; }
 
-    /*
     /// <summary>
     /// Gets and sets the collection of items in the sale.
     /// </summary>
-    public ICollection<SaleItem> Items { get; set; }
-    */
+    public ICollection<GetSaleItemResponse> Items { get; set; }
 
     /// <summary>
     /// Gets and sets a value indicating the status.

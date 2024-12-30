@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Enums;
@@ -27,28 +28,26 @@ public class SaleItem: BaseEntity
     public int Quantity { get; set; }
 
     /// <summary>
-    /// Gets the unit price of the product.
-    /// This value should be greater than zero.
-    /// </summary>
-    public decimal UnitPrice { get; set; }
-
-    /// <summary>
-    /// Gets the discount applied to the product in this sale item.
-    /// This value is expressed as a decimal percentage (e.g., 0.1 for 10%).
-    /// </summary>
-    public decimal Discount { get; set; }
-
-    /// <summary>
-    /// Gets the total amount for the sale item, including the discount.
-    /// This value is calculated as (UnitPrice * Quantity) - Discount.
-    /// </summary>
-    public decimal TotalAmount { get; set; }
-
-    /// <summary>
     /// Gets a value indicating whether the sale item has been cancelled.
     /// </summary>
     public SaleItemStatus Status { get; set; }
 
+    /// <summary>
+    /// Gets the total amount for the sale.
+    /// This value is calculated.
+    /// </summary>
+    [NotMapped]
+    public decimal TotalAmount 
+    {
+        get
+        {
+            if (Product == null)
+                return 0;
+            
+            return Quantity * Product.Price;
+        }
+    }  
+    
     /// <summary>
     /// Performs validation of the sale item entity.
     /// Ensures that essential fields like Product, Quantity, UnitPrice, and Discount are valid.
@@ -65,21 +64,20 @@ public class SaleItem: BaseEntity
         };
     }
 
-    /// <summary>
-    /// Returns a string representation of the sale item, including product name, quantity, and total amount.
-    /// </summary>
-    /// <returns>A string with the product name, quantity, and total amount.</returns>
-    public override string ToString()
+    public void Update(Sale sale, Product product)
     {
-        return $"{Product?.Name ?? "Unknown Product"} - Quantity: {Quantity}, Total Amount: {TotalAmount:C}";
+        Sale = sale;
+        Product = product;
     }
 
-    public void Update(int quantity, decimal unitPrice, decimal discount, decimal totalAmount, SaleItemStatus status)
+    public void Cancel()
     {
-        this.Quantity = quantity;
-        this.UnitPrice = unitPrice;
-        this.Discount = discount;
-        this.TotalAmount = totalAmount;
-        this.Status = status;
+        Status = SaleItemStatus.Cancelled;
     }
+    
+    public bool IsCancelled()
+    {
+        return Status == SaleItemStatus.Cancelled;
+    }
+
 }

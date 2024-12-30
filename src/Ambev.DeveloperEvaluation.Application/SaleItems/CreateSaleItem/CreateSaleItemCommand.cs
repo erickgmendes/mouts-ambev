@@ -21,14 +21,14 @@ namespace Ambev.DeveloperEvaluation.Application.SaleItems.CreateSaleItem;
 public class CreateSaleItemCommand : IRequest<CreateSaleItemResult>
 {
     /// <summary>
-    /// Gets and sets the product associated with the sale item.
-    /// </summary>
-    public Product? Product { get; set; }
-    
-    /// <summary>
     /// Gets and sets the Sale associated with the sale item.
     /// </summary>
-    public Sale? Sale { get; set; }
+    public Guid SaleId { get; set; }
+    
+    /// <summary>
+    /// Gets and sets the product associated with the sale item.
+    /// </summary>
+    public Guid ProductId { get; set; }
 
     /// <summary>
     /// Gets and sets the quantity of the product in the sale item.

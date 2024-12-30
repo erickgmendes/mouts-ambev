@@ -8,7 +8,9 @@ namespace Ambev.DeveloperEvaluation.Application.SaleItems.CreateSaleItem;
 
 public class CreateSaleItemHandler: IRequestHandler<CreateSaleItemCommand, CreateSaleItemResult>
 {
-    private readonly ISaleItemRepository _saleRepository;
+    private readonly ISaleItemRepository _saleItemRepository;
+    private readonly ISaleRepository _saleRepository;
+    private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
 
     /// <summary>
@@ -17,9 +19,16 @@ public class CreateSaleItemHandler: IRequestHandler<CreateSaleItemCommand, Creat
     /// <param name="saleRepository">The sale repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for CreateSaleItemCommand</param>
-    public CreateSaleItemHandler(ISaleItemRepository saleRepository, IMapper mapper)
+    public CreateSaleItemHandler(
+        ISaleItemRepository saleItemRepository, 
+        ISaleRepository saleRepository,
+        IProductRepository productRepository,
+        IMapper mapper 
+        )
     {
+        _saleItemRepository = saleItemRepository;
         _saleRepository = saleRepository;
+        _productRepository = productRepository;
         _mapper = mapper;
     }
 
@@ -37,13 +46,18 @@ public class CreateSaleItemHandler: IRequestHandler<CreateSaleItemCommand, Creat
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var existingSaleItem = await _saleRepository.GetByExternalIdAsync(command.Product!.ExternalId, cancellationToken);
-        if (existingSaleItem != null)
-            throw new InvalidOperationException($"SaleItem with external Id {command.Product.ExternalId} already exists");
+        var sale = await _saleRepository.GetByIdAsync(command.SaleId, cancellationToken);
+        if (sale == null)
+            throw new InvalidOperationException($"Sale with ID {command.SaleId} not found");
+        
+        var product = await _productRepository.GetByIdAsync(command.ProductId, cancellationToken);
+        if (product == null)
+            throw new InvalidOperationException($"Product with ID {command.ProductId} not found");
 
-        var sale = _mapper.Map<SaleItem>(command);
-        var createdSaleItem = await _saleRepository.CreateAsync(sale, cancellationToken);
-        var result = _mapper.Map<CreateSaleItemResult>(createdSaleItem);
-        return result;
+        var saleItem = _mapper.Map<SaleItem>(command);
+        saleItem.Update(sale, product);
+
+        var createdSaleItem = await _saleItemRepository.CreateAsync(saleItem, cancellationToken);
+        return _mapper.Map<CreateSaleItemResult>(createdSaleItem);
     }
 }
