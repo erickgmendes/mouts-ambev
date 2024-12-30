@@ -41,8 +41,13 @@ public class GetSaleItemResult
     /// Gets the total amount for the sale.
     /// This value is calculated.
     /// </summary>
-    [NotMapped]
     public decimal TotalAmount { get; set; }
+    
+    /// <summary>
+    /// Gets and sets the unit price of the product.
+    /// This value should be greater than zero.
+    /// </summary>
+    public decimal UnitPrice { get; set; }
     
     /// <summary>
     /// Gets and sets the collection of items in the sale.

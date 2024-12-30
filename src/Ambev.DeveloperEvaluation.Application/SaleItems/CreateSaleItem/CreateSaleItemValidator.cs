@@ -26,6 +26,8 @@ public class CreateSaleItemCommandValidator: AbstractValidator<CreateSaleItemCom
         RuleFor(saleItem => saleItem.ProductId).NotEmpty();
 
         // Validates that the Quantity is not empty and Greater than 0
-        RuleFor(saleItem => saleItem.Quantity).NotEmpty().GreaterThan(0);
+        RuleFor(saleItem => saleItem.Quantity)
+            .GreaterThan(0).WithMessage("Quantity cannot be less than or equal to 0")
+            .LessThanOrEqualTo(20).WithMessage("Quantity cannot be greater than or equal to 20");
     }
 }

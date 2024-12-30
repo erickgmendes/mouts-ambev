@@ -57,7 +57,7 @@ public class SaleItemController : BaseController
 
             var command = _mapper.Map<CreateSaleItemCommand>(request);
             var response = await _mediator.Send(command, cancellationToken);
-            const string message = "Sale item canceled successfully";
+            const string message = "Sale item created successfully";
             Log.Information(message);
             
             return Created(string.Empty, new ApiResponseWithData<CreateSaleItemResponse>

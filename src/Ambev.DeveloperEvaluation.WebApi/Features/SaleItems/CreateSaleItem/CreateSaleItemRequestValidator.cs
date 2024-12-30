@@ -21,6 +21,9 @@ public class CreateSaleItemRequestValidator : AbstractValidator<CreateSaleItemRe
         RuleFor(saleItem => saleItem.ProductId).NotEmpty();
 
         // Validates that the Quantity is not empty and Greater than 0
-        RuleFor(saleItem => saleItem.Quantity).NotEmpty().GreaterThan(0);
+        RuleFor(saleItem => saleItem.Quantity)
+            .NotEmpty()
+            .GreaterThan(0)
+            .LessThanOrEqualTo(20);
     }
 }

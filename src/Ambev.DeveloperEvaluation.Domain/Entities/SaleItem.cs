@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.DiscountRulesStrategies;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Validation;
 
@@ -26,7 +27,7 @@ public class SaleItem: BaseEntity
     /// This must be a positive integer.
     /// </summary>
     public int Quantity { get; set; }
-
+    
     /// <summary>
     /// Gets a value indicating whether the sale item has been cancelled.
     /// </summary>
@@ -43,10 +44,48 @@ public class SaleItem: BaseEntity
         {
             if (Product == null)
                 return 0;
-            
-            return Quantity * Product.Price;
+
+            return (Quantity * Product.Price) - Discount; 
         }
-    }  
+    }
+    
+    /// <summary>
+    /// Gets and sets the unit price of the product.
+    /// This value should be greater than zero.
+    /// </summary>
+    public decimal UnitPrice 
+    {
+        get
+        {
+            if (Product == null)
+                return 0;
+            
+            return Product.Price;
+        }
+    }
+    
+    /// <summary>
+    /// Gets the total amount for the sale.
+    /// This value is calculated.
+    /// </summary>
+    [NotMapped]
+    public decimal Discount 
+    {
+        get
+        {
+            IDiscountRuleStrategy discountRuleStrategy;
+            if (Quantity >= 10 && Quantity <= 20)
+                discountRuleStrategy = new DiscountBetween10And20Items();
+            else if (Quantity >= 4)
+                discountRuleStrategy = new DiscountForMoreThan4Items();
+            else
+                discountRuleStrategy = new NoDiscountRuleStrategy();
+
+            var value = Quantity * Product.Price;
+            
+            return discountRuleStrategy.ApplyDiscount(value);
+        }
+    }
     
     /// <summary>
     /// Performs validation of the sale item entity.
