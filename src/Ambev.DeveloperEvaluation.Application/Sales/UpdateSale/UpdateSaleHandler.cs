@@ -30,7 +30,7 @@ public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, UpdateSaleRe
         var sale = await _saleRepository.GetByIdAsync(command.Id, cancellationToken);
         
         if (sale == null)
-            throw new Exception($"Sale with ID {command.Id} not found");
+            throw new ArgumentException($"Sale with ID {command.Id} not found");
 
         if (!command.CustomerId.HasValue) 
             throw new ArgumentException("CustomerId cannot be null");

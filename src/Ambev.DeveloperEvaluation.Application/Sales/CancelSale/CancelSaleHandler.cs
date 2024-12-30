@@ -21,7 +21,6 @@ public class CancelSaleHandler : IRequestHandler<CancelSaleCommand, CancelSaleRe
     public CancelSaleHandler(ISaleRepository saleRepository)
     {
         _saleRepository = saleRepository;
-        
     }
 
     /// <summary>
