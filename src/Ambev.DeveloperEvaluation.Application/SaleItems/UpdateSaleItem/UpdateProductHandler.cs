@@ -23,7 +23,7 @@ public class UpdateSaleItemHandler : IRequestHandler<UpdateSaleItemCommand, Upda
         var saleItem = await _repository.GetByIdAsync(command.Id);
         
         if (saleItem == null)
-            throw new Exception("SaleItem not found");
+            throw new Exception($"Sale Item with ID {command.Id} not found");
 
         saleItem.Update(
             command.Quantity,

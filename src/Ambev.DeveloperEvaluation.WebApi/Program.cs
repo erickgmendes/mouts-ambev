@@ -5,6 +5,7 @@ using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.IoC;
 using Ambev.DeveloperEvaluation.ORM;
+using Ambev.DeveloperEvaluation.WebApi.Features.Branches.GetBranch;
 using Ambev.DeveloperEvaluation.WebApi.Features.Customers.UpdateCustomer;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
 using Ambev.DeveloperEvaluation.WebApi.Middleware;
@@ -67,6 +68,7 @@ public class Program
             });
 
             //IMapper mapper = mapperConfig.CreateMapper();
+            builder.Services.AddAutoMapper(typeof(GetBranchProfile).Assembly);
             
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 

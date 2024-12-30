@@ -6,11 +6,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.UpdateSaleItem;
 public class UpdateSaleItemRequest
 {
     /// <summary>
-    /// Gets the unique identifier for the saleItem.
-    /// </summary>
-    public Guid Id { get; set; }
-    
-    /// <summary>
     /// Gets the sale associated with the sale item.
     /// </summary>
     public int SaleId { get; set; }

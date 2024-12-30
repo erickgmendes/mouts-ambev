@@ -1,8 +1,12 @@
 namespace Ambev.DeveloperEvaluation.Application.Branches.DeleteBranch;
 
 /// <summary>
-/// Response model for DeleteBranch operation
+/// Represents the response returned after successfully creating a new branch.
 /// </summary>
+/// <remarks>
+/// This response contains the unique identifier of the newly created branch,
+/// which can be used for subsequent operations or reference.
+/// </remarks>
 public class DeleteBranchResponse
 {
     /// <summary>

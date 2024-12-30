@@ -25,7 +25,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales;
 [Route("api/[controller]")]
 public class SaleController : BaseController
 {
-
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
@@ -238,11 +237,11 @@ public class SaleController : BaseController
             const string message = "Sale updated successfully";
             Log.Information(message);
             
-            return Ok(new ApiResponseWithData<CancelSaleResponse>
+            return Ok(new ApiResponseWithData<CancelSaleResult>
             {
                 Success = true,
                 Message = message,
-                Data = _mapper.Map<CancelSaleResponse>(response)
+                Data = _mapper.Map<CancelSaleResult>(response)
             });
         }
         catch (Exception e)

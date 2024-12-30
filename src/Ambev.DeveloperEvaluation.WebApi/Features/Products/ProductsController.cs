@@ -10,20 +10,17 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using UpdateProductRequest = Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct.UpdateProductRequest;
-using UpdateProductResponse = Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct.UpdateProductResponse;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products;
 
 /// <summary>
 /// Controller for managing product operations
 /// </summary>
-// [ApiController]
-// [Route("api/[controller]")]
-/*
+[ApiController]
+[Route("api/[controller]")]
+
 public class ProductsController : BaseController
 {
-
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
@@ -103,7 +100,7 @@ public class ProductsController : BaseController
             return BadRequest(new ApiResponse
             {
                 Success = false,
-                Message = "Product not found"
+                Message = e.Message
             });
         }
     }
@@ -144,7 +141,7 @@ public class ProductsController : BaseController
             return BadRequest(new ApiResponse
             {
                 Success = false,
-                Message = "Product not found"
+                Message = e.Message
             });
         }
     }
@@ -162,7 +159,6 @@ public class ProductsController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateProduct([FromRoute] Guid id, [FromBody] UpdateProductRequest request, CancellationToken cancellationToken)
     {
-        request.Id = id;
         var validator = new UpdateProductRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -170,6 +166,7 @@ public class ProductsController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<UpdateProductCommand>(request);
+        command.Id = id;
     
         try
         {
@@ -187,9 +184,8 @@ public class ProductsController : BaseController
             return BadRequest(new ApiResponse
             {
                 Success = false,
-                Message = "Product not found"
+                Message = e.Message
             });
         }
     }
 }
-*/

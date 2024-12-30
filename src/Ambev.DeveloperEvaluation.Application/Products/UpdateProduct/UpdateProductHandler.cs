@@ -20,7 +20,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
         var product = await _repository.GetByIdAsync(command.Id);
         
         if (product == null)
-            throw new Exception("Product not found");
+            throw new Exception($"Product with ID {command.Id} not found");
 
         product.Update(
             command.ExternalId,

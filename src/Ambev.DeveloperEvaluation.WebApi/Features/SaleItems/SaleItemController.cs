@@ -7,13 +7,9 @@ using Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.DeleteSaleItem;
 using Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.CreateSaleItem;
 using Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.GetSaleItem;
 using Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.UpdateSaleItem;
-using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
-using Ambev.DeveloperEvaluation.WebApi.Features.Sales.DeleteSale;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using UpdateSaleItemRequest = Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.UpdateSaleItem.UpdateSaleItemRequest;
-using UpdateSaleItemResponse = Ambev.DeveloperEvaluation.WebApi.Features.SaleItems.UpdateSaleItem.UpdateSaleItemResponse;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.SaleItems;
 
@@ -24,7 +20,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.SaleItems;
 [Route("api/[controller]")]
 public class SaleItemController : BaseController
 {
-
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
@@ -104,7 +99,7 @@ public class SaleItemController : BaseController
             return BadRequest(new ApiResponse
             {
                 Success = false,
-                Message = "Sale item not found"
+                Message = e.Message
             });
         }
     }
@@ -145,7 +140,7 @@ public class SaleItemController : BaseController
             return BadRequest(new ApiResponse
             {
                 Success = false,
-                Message = "Sale item not found"
+                Message = e.Message
             });
         }
     }
@@ -163,7 +158,6 @@ public class SaleItemController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateSaleItem([FromRoute] Guid id, [FromBody] UpdateSaleItemRequest request, CancellationToken cancellationToken)
     {
-        request.Id = id;
         var validator = new UpdateSaleItemRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -175,6 +169,7 @@ public class SaleItemController : BaseController
         try
         {
             var response = await _mediator.Send(command, cancellationToken);
+            command.Id = id;
         
             return Ok(new ApiResponseWithData<UpdateSaleItemResponse>
             {
@@ -188,7 +183,7 @@ public class SaleItemController : BaseController
             return BadRequest(new ApiResponse
             {
                 Success = false,
-                Message = "SaleItem not found"
+                Message = e.Message
             });
         }
     }

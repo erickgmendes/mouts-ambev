@@ -21,9 +21,6 @@ public class SaleValidator : AbstractValidator<Sale>
         RuleFor(sale => sale.Branch)
             .NotNull().WithMessage("Branch is required.");
 
-        RuleFor(sale => sale.TotalAmount)
-            .GreaterThan(0).WithMessage("Total amount must be greater than zero.");
-
         RuleFor(sale => sale.Items)
             .NotEmpty().WithMessage("Sale must have at least one item.")
             .Must(items => items.All(item => item.Quantity > 0 && item.UnitPrice > 0))

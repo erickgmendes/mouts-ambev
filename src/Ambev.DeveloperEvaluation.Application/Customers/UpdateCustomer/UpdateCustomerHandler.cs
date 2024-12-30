@@ -20,7 +20,7 @@ public class UpdateCustomerHandler : IRequestHandler<UpdateCustomerCommand, Upda
         var customer = await _repository.GetByIdAsync(command.Id);
         
         if (customer == null)
-            throw new Exception("Customer not found");
+            throw new Exception($"Customer with ID {command.Id} not found");
 
         customer.Update(
             command.Name,

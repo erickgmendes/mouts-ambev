@@ -10,20 +10,16 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Customers.UpdateCustomer;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using UpdateCustomerRequest = Ambev.DeveloperEvaluation.WebApi.Features.Customers.UpdateCustomer.UpdateCustomerRequest;
-using UpdateCustomerResponse = Ambev.DeveloperEvaluation.WebApi.Features.Customers.UpdateCustomer.UpdateCustomerResponse;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Customers;
 
 /// <summary>
 /// Controller for managing customer operations
 /// </summary>
-// [ApiController]
-// [Route("api/[controller]")]
-/*
+[ApiController]
+[Route("api/[controller]")]
 public class CustomersController : BaseController
 {
-
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
@@ -103,7 +99,7 @@ public class CustomersController : BaseController
             return BadRequest(new ApiResponse
             {
                 Success = false,
-                Message = "Customer not found"
+                Message = e.Message
             });
         }
     }
@@ -144,7 +140,7 @@ public class CustomersController : BaseController
             return BadRequest(new ApiResponse
             {
                 Success = false,
-                Message = "Customer not found"
+                Message = e.Message
             });
         }
     }
@@ -162,7 +158,6 @@ public class CustomersController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateCustomer([FromRoute] Guid id, [FromBody] UpdateCustomerRequest request, CancellationToken cancellationToken)
     {
-        request.Id = id ;
         var validator = new UpdateCustomerRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -172,6 +167,7 @@ public class CustomersController : BaseController
         try
         {
             var command = _mapper.Map<UpdateCustomerCommand>(request);
+            command.Id = id;
             var response = await _mediator.Send(command, cancellationToken);
         
             return Ok(new ApiResponseWithData<UpdateCustomerResponse>
@@ -186,9 +182,8 @@ public class CustomersController : BaseController
             return BadRequest(new ApiResponse
             {
                 Success = false,
-                Message = "Customer not found"
+                Message = e.Message
             });
         }
     }
 }
-*/

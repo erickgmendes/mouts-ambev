@@ -23,7 +23,6 @@ public class GetSaleProfile : Profile
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Number, opt => opt.MapFrom(src => src.Number))
             .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date))
-            .ForMember(dest => dest.TotalAmount, opt => opt.MapFrom(src => src.TotalAmount))
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status));
     }
 }

@@ -39,12 +39,6 @@ public class UpdateSaleItemResult
     public decimal Discount { get; set; }
 
     /// <summary>
-    /// Gets and sets the total amount for the sale item, including the discount.
-    /// This value is calculated as (UnitPrice * Quantity) - Discount.
-    /// </summary>
-    public decimal TotalAmount { get; set; }
-
-    /// <summary>
     /// Gets and sets a value indicating whether the sale item has been cancelled.
     /// </summary>
     public int Status { get; set; }

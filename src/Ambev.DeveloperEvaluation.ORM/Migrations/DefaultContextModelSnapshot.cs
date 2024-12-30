@@ -136,9 +136,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("numeric");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BranchId");

@@ -13,38 +13,32 @@ public class Sale: BaseEntity
     /// <summary>
     /// Gets the sale number, which is a unique reference for the sale.
     /// </summary>
-    public string Number { get; private set; } = string.Empty;
+    public string Number { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets the date and time when the sale occurred.
     /// </summary>
-    public DateTime Date { get; private set; }
+    public DateTime Date { get; set; }
 
     /// <summary>
     /// Gets the customer associated with the sale.
     /// </summary>
-    public Customer? Customer { get; private set; }
+    public Customer? Customer { get; set; }
 
-    /// <summary>
-    /// Gets the total amount of the sale.
-    /// This is the sum of all sale items' prices.
-    /// </summary>
-    public decimal TotalAmount { get; private set; }
-    
     /// <summary>
     /// Gets the branch where the sale occurred.
     /// </summary>
-    public Branch? Branch { get; private set; }
+    public Branch? Branch { get; set; }
 
     /// <summary>
     /// Gets the collection of items in the sale.
     /// </summary>
-    public ICollection<SaleItem> Items { get; private set; }
+    public ICollection<SaleItem> Items { get; set; }
 
     /// <summary>
     /// Gets a value indicating the status.
     /// </summary>
-    public SaleStatus Status { get; private set; }
+    public SaleStatus Status { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Sale"/> class.
@@ -76,7 +70,7 @@ public class Sale: BaseEntity
     /// <returns>A string with the sale number and total amount.</returns>
     public override string ToString()
     {
-        return $"Sale: {Number}, Total Amount: {TotalAmount:C}, Date: {Date:yyyy-MM-dd}";
+        return $"Sale: {Number}, Date: {Date:yyyy-MM-dd}";
     }
 
     public void SetCustomer(Customer? customer)
@@ -97,11 +91,10 @@ public class Sale: BaseEntity
         Status = (SaleStatus)statusValue;
     }
 
-    public void Update(string number, DateTime date, decimal totalAmount, Customer? customer, Branch? branch, int? status)
+    public void Update(string number, DateTime date, Customer? customer, Branch? branch, int? status)
     {
         this.Number = number;
         this.Date = date;
-        this.TotalAmount = totalAmount;
         SetStatus(status);
         SetBranch(branch);
         SetCustomer(customer);

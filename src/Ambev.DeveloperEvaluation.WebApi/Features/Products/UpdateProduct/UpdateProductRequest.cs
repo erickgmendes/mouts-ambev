@@ -6,11 +6,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 public class UpdateProductRequest
 {
     /// <summary>
-    /// Gets the unique identifier for the customer.
-    /// </summary>
-    public Guid Id { get; set; }
-
-    /// <summary>
     /// Gets the external identifier associated with the product, used for integrations with external systems.
     /// </summary>
     public string ExternalId { get; set; } = string.Empty;

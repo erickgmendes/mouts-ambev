@@ -10,20 +10,16 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Branches.UpdateBranch;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using UpdateBranchRequest = Ambev.DeveloperEvaluation.WebApi.Features.Branches.UpdateBranch.UpdateBranchRequest;
-using UpdateBranchResponse = Ambev.DeveloperEvaluation.WebApi.Features.Branches.UpdateBranch.UpdateBranchResponse;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Branches;
 
 /// <summary>
 /// Controller for managing branch operations
 /// </summary>
-// [ApiController]
-// [Route("api/[controller]")]
-/*
+[ApiController]
+[Route("api/[controller]")]
 public class BranchesController : BaseController
 {
-
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
@@ -99,10 +95,10 @@ public class BranchesController : BaseController
         }
         catch (Exception e)
         {
-            return NotFound(new ApiResponse
+            return BadRequest(new ApiResponse
             {
                 Success = false,
-                Message = "Branch not found"
+                Message = e.Message
             });
         }
     }
@@ -126,13 +122,12 @@ public class BranchesController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-
         try
         {
             var command = _mapper.Map<DeleteBranchCommand>(request.Id);
             await _mediator.Send(command, cancellationToken);
-
-            return Ok(new ApiResponse
+            
+            return Ok(new ApiResponseWithData<DeleteBranchResponse>
             {
                 Success = true,
                 Message = "Branch deleted successfully"
@@ -140,10 +135,10 @@ public class BranchesController : BaseController
         }
         catch (Exception e)
         {
-            return NotFound(new ApiResponse
+            return BadRequest(new ApiResponse
             {
                 Success = false,
-                Message = "Branch not found"
+                Message = e.Message
             });
         }    
     }
@@ -161,7 +156,6 @@ public class BranchesController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateBranch([FromRoute] Guid id, [FromBody] UpdateBranchRequest request, CancellationToken cancellationToken)
     {
-        request.Id = id;
         var validator = new UpdateBranchRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -171,6 +165,7 @@ public class BranchesController : BaseController
         try
         {
             var command = _mapper.Map<UpdateBranchCommand>(request);
+            command.Id = id;
             var response = await _mediator.Send(command, cancellationToken);
         
             return Ok(new ApiResponseWithData<UpdateBranchResponse>
@@ -182,12 +177,12 @@ public class BranchesController : BaseController
         }
         catch (Exception e)
         {
-            return NotFound(new ApiResponse
+            return BadRequest(new ApiResponse
             {
                 Success = false,
-                Message = "Branch not found"
+                Message = e.Message
             });
         }
     }
     
-}*/
+}

@@ -39,14 +39,7 @@ public class CreateSaleCommand : IRequest<CreateSaleResult>
     /// Gets the branch where the sale occurred.
     /// </summary>
     public Guid? BranchId { get; set; }
-
-    /*
-    /// <summary>
-    /// Gets the collection of items in the sale.
-    /// </summary>
-    public ICollection<SaleItem> Items { get; private set; }
-    */
-    
+  
     public ValidationResultDetail Validate()
     {
         var validator = new CreateSaleCommandValidator();

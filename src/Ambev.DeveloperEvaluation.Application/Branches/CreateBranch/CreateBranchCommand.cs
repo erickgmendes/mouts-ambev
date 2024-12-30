@@ -23,32 +23,32 @@ public class CreateBranchCommand : IRequest<CreateBranchResult>
     /// <summary>
     /// Gets or sets the External identifier for the branch.
     /// </summary>
-    public string ExternalId { get; private set; } = string.Empty;
+    public string ExternalId { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the name of the branch.
     /// </summary>
-    public string Name { get; private set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the address of the branch.
     /// </summary>
-    public string Address { get; private set; } = string.Empty;
+    public string Address { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the city where the branch is located.
     /// </summary>
-    public string City { get; private set; } = string.Empty;
+    public string City { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the state where the branch is located.
     /// </summary>
-    public string State { get; private set; } = string.Empty;
+    public string State { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the postal code of the branch's address.
     /// </summary>
-    public string PostalCode { get; private set; } = string.Empty;
+    public string PostalCode { get; set; } = string.Empty;
 
     public ValidationResultDetail Validate()
     {

@@ -13,46 +13,41 @@ public class SaleItem: BaseEntity
     /// <summary>
     /// Gets the sale associated with the sale item.
     /// </summary>
-    public Sale Sale { get; private set; }
+    public Sale Sale { get; set; }
     
     /// <summary>
     /// Gets the product associated with the sale item.
     /// </summary>
-    public Product Product { get; private set; }
+    public Product Product { get; set; }
 
     /// <summary>
     /// Gets the quantity of the product in the sale item.
     /// This must be a positive integer.
     /// </summary>
-    public int Quantity { get; private set; }
+    public int Quantity { get; set; }
 
     /// <summary>
     /// Gets the unit price of the product.
     /// This value should be greater than zero.
     /// </summary>
-    public decimal UnitPrice { get; private set; }
+    public decimal UnitPrice { get; set; }
 
     /// <summary>
     /// Gets the discount applied to the product in this sale item.
     /// This value is expressed as a decimal percentage (e.g., 0.1 for 10%).
     /// </summary>
-    public decimal Discount { get; private set; }
+    public decimal Discount { get; set; }
 
     /// <summary>
     /// Gets the total amount for the sale item, including the discount.
     /// This value is calculated as (UnitPrice * Quantity) - Discount.
     /// </summary>
-    public decimal TotalAmount { get; private set; }
+    public decimal TotalAmount { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether the sale item has been cancelled.
     /// </summary>
-    public SaleItemStatus Status { get; private set; }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SaleItem"/> class.
-    /// </summary>
-    public SaleItem() { }
+    public SaleItemStatus Status { get; set; }
 
     /// <summary>
     /// Performs validation of the sale item entity.

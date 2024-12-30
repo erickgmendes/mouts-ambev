@@ -6,11 +6,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Branches.UpdateBranch;
 public class UpdateBranchRequest
 {
     /// <summary>
-    /// Gets the unique identifier for the branch.
-    /// </summary>
-    public Guid Id { get; set; }
-
-    /// <summary>
     /// Gets the External identifier for the branch.
     /// </summary>
     public string ExternalId { get; set; } = string.Empty;

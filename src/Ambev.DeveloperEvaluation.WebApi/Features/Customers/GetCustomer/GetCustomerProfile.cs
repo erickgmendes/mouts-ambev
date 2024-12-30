@@ -1,3 +1,5 @@
+using Ambev.DeveloperEvaluation.Application.Customers.GetCustomers;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Customers.GetCustomer;
@@ -12,7 +14,9 @@ public class GetCustomerProfile : Profile
     /// </summary>
     public GetCustomerProfile()
     {
-        CreateMap<Guid, Application.Customers.GetCustomers.GetCustomerCommand>()
-            .ConstructUsing(id => new Application.Customers.GetCustomers.GetCustomerCommand(id));
+        CreateMap<Guid, GetCustomerCommand>()
+            .ConstructUsing(id => new GetCustomerCommand(id));
+        
+        CreateMap<Customer, GetCustomerResult>();
     }
 }

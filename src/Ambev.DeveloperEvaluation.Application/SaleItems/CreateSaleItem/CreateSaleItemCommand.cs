@@ -49,12 +49,6 @@ public class CreateSaleItemCommand : IRequest<CreateSaleItemResult>
     public decimal Discount { get; set; }
 
     /// <summary>
-    /// Gets and sets the total amount for the sale item, including the discount.
-    /// This value is calculated as (UnitPrice * Quantity) - Discount.
-    /// </summary>
-    public decimal TotalAmount { get; set; }
-
-    /// <summary>
     /// Gets and sets a value indicating whether the sale item has been cancelled.
     /// </summary>
     public bool IsCancelled { get; set; }

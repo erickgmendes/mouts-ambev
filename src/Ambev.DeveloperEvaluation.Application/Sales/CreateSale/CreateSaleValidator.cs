@@ -17,7 +17,6 @@ public class CreateSaleCommandValidator: AbstractValidator<CreateSaleCommand>
     /// - Date: Required
     /// - CustomerId: Required
     /// - BranchId: Required
-    /// - TotalAmount: Required
     /// </remarks>
     public CreateSaleCommandValidator()
     {

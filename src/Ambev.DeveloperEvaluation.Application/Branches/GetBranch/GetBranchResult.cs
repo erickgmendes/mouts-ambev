@@ -11,7 +11,8 @@ public class GetBranchResult
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Gets the External identifier for the branch.
+    /// Gets the external identifier for the branch.
+    /// This identifier is used to reference the branch in external systems.
     /// </summary>
     public string ExternalId { get; set; } = string.Empty;
 

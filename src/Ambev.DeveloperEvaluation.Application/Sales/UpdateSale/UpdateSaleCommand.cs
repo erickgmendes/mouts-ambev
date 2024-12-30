@@ -23,12 +23,6 @@ public class UpdateSaleCommand : IRequest<UpdateSaleResult>
     /// Gets the customer associated with the sale.
     /// </summary>
     public Guid? CustomerId { get; set; }
-
-    /// <summary>
-    /// Gets the total amount of the sale.
-    /// This is the sum of all sale items' prices.
-    /// </summary>
-    public decimal TotalAmount { get; set; }
     
     /// <summary>
     /// Gets the branch where the sale occurred.

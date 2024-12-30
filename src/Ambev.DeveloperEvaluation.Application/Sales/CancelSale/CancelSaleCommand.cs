@@ -6,7 +6,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CancelSale;
 /// <summary>
 /// Command for deleting a sale
 /// </summary>
-public class CancelSaleCommand : IRequest<CancelSaleResponse>
+public class CancelSaleCommand : IRequest<CancelSaleResult>
 {
     /// <summary>
     /// The unique identifier of the sale to delete

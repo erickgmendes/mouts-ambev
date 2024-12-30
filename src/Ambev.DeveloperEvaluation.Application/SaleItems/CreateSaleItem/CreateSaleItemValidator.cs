@@ -16,7 +16,6 @@ public class CreateSaleItemCommandValidator: AbstractValidator<CreateSaleItemCom
     /// - Quantity is not empty and Greater than 0
     /// - UnitPrice is not empty and Greater than 0
     /// - Discount is not empty and Greater than or equal to 0
-    /// - TotalAmount is not empty and Greater than or equal to 0
     /// - Product ExternalId is not empty
     /// </remarks>
     public CreateSaleItemCommandValidator()
@@ -30,9 +29,6 @@ public class CreateSaleItemCommandValidator: AbstractValidator<CreateSaleItemCom
         
         // Validates that the Discount is not empty and Greater than or equal to 0
         RuleFor(sale => sale.Discount).NotEmpty().GreaterThanOrEqualTo(0);
-        
-        // Validates that the TotalAmount is not empty and Greater than or equal to 0
-        RuleFor(sale => sale.TotalAmount).NotEmpty().GreaterThanOrEqualTo(0);
         
         // Validates that the Product ExternalId is not empty
         RuleFor(sale => sale.Product!.ExternalId).NotEmpty();

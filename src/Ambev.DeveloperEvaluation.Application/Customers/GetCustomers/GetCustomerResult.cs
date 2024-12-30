@@ -11,32 +11,31 @@ public class GetCustomerResult
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Gets the External identifier for the branch.
+    /// Gets the external identifier associated with the customer, used for integrations with external systems.
     /// </summary>
     public string ExternalId { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets the name of the branch.
+    /// Gets the full name of the customer.
+    /// This should not be null or empty.
     /// </summary>
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets the address of the branch.
+    /// Gets the customer's document number (e.g., CPF, CNPJ).
+    /// Follows the format required for customer identification.
     /// </summary>
-    public string Address { get; set; } = string.Empty;
+    public string Document { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets the city where the branch is located.
+    /// Gets the email address of the customer.
+    /// Must be in a valid email format for communication and authentication purposes.
     /// </summary>
-    public string City { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets the state where the branch is located.
+    /// Gets the customer's phone number.
+    /// Must follow the format (XX) XXXXX-XXXX.
     /// </summary>
-    public string State { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets the postal code of the branch's address.
-    /// </summary>
-    public string PostalCode { get; set; } = string.Empty;
+    public string Phone { get; set; } = string.Empty;
 }
