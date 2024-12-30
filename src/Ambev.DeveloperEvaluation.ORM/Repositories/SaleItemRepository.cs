@@ -89,5 +89,16 @@ public class SaleItemRepository: ISaleItemRepository
                 .Where(s=>s.Sale.Id == saleId && s.Status == SaleItemStatus.NotCancelled)
                 .ToListAsync();
     }
-    
+
+    public async Task<ICollection<SaleItem>> GetBySaleAndProductAsync(Guid saleId, Guid productId, CancellationToken cancellationToken)
+    {
+        return await _context.SaleItems
+                .Include(x => x.Sale)
+                .Include(x => x.Product)
+                .Where(
+                    s => s.Status == SaleItemStatus.NotCancelled 
+                         && s.Sale.Id == saleId && s.Product.Id == productId)
+            .ToListAsync();
+
+    }
 }

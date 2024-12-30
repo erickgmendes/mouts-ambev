@@ -54,10 +54,19 @@ public class CreateSaleItemHandler: IRequestHandler<CreateSaleItemCommand, Creat
         if (product == null)
             throw new InvalidOperationException($"Product with ID {command.ProductId} not found");
 
+        var salesItem = await _saleItemRepository.GetBySaleAndProductAsync(command.SaleId, command.ProductId, cancellationToken);
+        if (salesItem?.Any() == true)
+        {
+            var currentQuantity = salesItem.Sum(x => x.Quantity);
+            var newQuantity = currentQuantity + command.Quantity;
+            if (newQuantity > 20)
+                throw new ValidationException($"The established limit is 20 items per product.");
+        }
+
         var saleItem = _mapper.Map<SaleItem>(command);
         saleItem.Update(sale, product);
-
         var createdSaleItem = await _saleItemRepository.CreateAsync(saleItem, cancellationToken);
         return _mapper.Map<CreateSaleItemResult>(createdSaleItem);
+        
     }
 }

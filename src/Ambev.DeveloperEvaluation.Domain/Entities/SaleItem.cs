@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
-using Ambev.DeveloperEvaluation.Domain.DiscountRulesStrategies;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Validation;
 
@@ -45,7 +44,7 @@ public class SaleItem: BaseEntity
             if (Product == null)
                 return 0;
 
-            return (Quantity * Product.Price) - Discount; 
+            return (Quantity * Product.Price); 
         }
     }
     
@@ -61,29 +60,6 @@ public class SaleItem: BaseEntity
                 return 0;
             
             return Product.Price;
-        }
-    }
-    
-    /// <summary>
-    /// Gets the total amount for the sale.
-    /// This value is calculated.
-    /// </summary>
-    [NotMapped]
-    public decimal Discount 
-    {
-        get
-        {
-            IDiscountRuleStrategy discountRuleStrategy;
-            if (Quantity >= 10 && Quantity <= 20)
-                discountRuleStrategy = new DiscountBetween10And20Items();
-            else if (Quantity >= 4)
-                discountRuleStrategy = new DiscountForMoreThan4Items();
-            else
-                discountRuleStrategy = new NoDiscountRuleStrategy();
-
-            var value = Quantity * Product.Price;
-            
-            return discountRuleStrategy.ApplyDiscount(value);
         }
     }
     

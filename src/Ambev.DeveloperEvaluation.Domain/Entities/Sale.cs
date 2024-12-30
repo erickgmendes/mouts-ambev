@@ -58,7 +58,7 @@ public class Sale: BaseEntity
     {
         Items = new List<SaleItem>();
     }
-
+    
     /// <summary>
     /// Performs validation of the sale entity.
     /// Ensures that the sale has essential properties like Customer, Branch, and Sale Items.

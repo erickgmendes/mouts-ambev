@@ -47,4 +47,5 @@ public interface ISaleItemRepository
     /// <returns>The saleItem list if found, null otherwise</returns>
     Task<ICollection<SaleItem>> GetBySaleIdAsync(Guid saleId, CancellationToken cancellationToken);
 
+    Task<ICollection<SaleItem>> GetBySaleAndProductAsync(Guid saleId, Guid productId, CancellationToken cancellationToken);
 }

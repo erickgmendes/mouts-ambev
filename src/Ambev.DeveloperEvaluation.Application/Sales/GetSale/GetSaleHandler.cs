@@ -1,4 +1,7 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Ambev.DeveloperEvaluation.Application.SaleItems.GetSaleItem;
+using Ambev.DeveloperEvaluation.Application.Sales.DiscountStrategies;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
@@ -46,6 +49,31 @@ public class GetSaleHandler : IRequestHandler<GetSaleCommand, GetSaleResult>
         if (sale == null)
             throw new KeyNotFoundException($"Sale with ID {request.Id} not found");
 
-        return _mapper.Map<GetSaleResult>(sale);
+        var saleResult = _mapper.Map<GetSaleResult>(sale);
+        var distinctItems = saleResult.Items
+            .GroupBy(item => item.ProductId)
+            .Select(group => group.First())
+            .ToList();
+        foreach (var item in distinctItems)
+        {
+            var itens = saleResult.Items.Where(item => item.ProductId == item.ProductId).ToList();
+            var quantity = itens.Sum(x => x.Quantity);
+
+            foreach (var getSaleItemResult in itens)
+            {
+                IDiscountStrategy discountRuleStrategy;
+                if (quantity >= 10 && quantity <= 20)
+                    discountRuleStrategy = new DiscountBetween10And20ItemsStrategy();
+                else if (quantity >= 4)
+                    discountRuleStrategy = new DiscountForMoreThan4ItemsStrategy();
+                else
+                    discountRuleStrategy = new NoDiscountStrategy();
+
+                getSaleItemResult.Discount = discountRuleStrategy.ApplyDiscount(getSaleItemResult.TotalAmount);
+                getSaleItemResult.TotalAmount -= getSaleItemResult.Discount;
+            }
+        }
+
+        return saleResult;
     }
 }
