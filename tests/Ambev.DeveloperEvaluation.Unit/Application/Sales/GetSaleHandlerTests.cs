@@ -56,11 +56,11 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Sales
             var sale = new Sale
             {
                 Id = (Guid.NewGuid()),
-                Items = new List<SaleItem>
+                Items = new List<DeveloperEvaluation.Domain.Entities.SaleItem>
                 {
-                    new SaleItem { Product = new Product(){Id = Guid.NewGuid()}, Quantity = 5 },
-                    new SaleItem { Product = new Product(){Id = Guid.NewGuid()}, Quantity = 15 },
-                    new SaleItem { Product = new Product(){Id = Guid.NewGuid()}, Quantity = 10 }
+                    new DeveloperEvaluation.Domain.Entities.SaleItem { Product = new Product(){Id = Guid.NewGuid()}, Quantity = 5 },
+                    new DeveloperEvaluation.Domain.Entities.SaleItem { Product = new Product(){Id = Guid.NewGuid()}, Quantity = 15 },
+                    new DeveloperEvaluation.Domain.Entities.SaleItem { Product = new Product(){Id = Guid.NewGuid()}, Quantity = 10 }
                 }
             };
             _saleRepository.GetByIdAsync(command.Id, CancellationToken.None).Returns(sale);
