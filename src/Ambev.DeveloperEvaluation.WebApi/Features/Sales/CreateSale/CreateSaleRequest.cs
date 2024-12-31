@@ -27,11 +27,4 @@ public class CreateSaleRequest
     /// </summary>
     public Guid? BranchId { get; set; }
     
-    /*
-    /// <summary>
-    /// Gets and sets the collection of items in the sale.
-    /// </summary>
-    public ICollection<SaleItem> Items { get; set; }
-    */
-    
 }

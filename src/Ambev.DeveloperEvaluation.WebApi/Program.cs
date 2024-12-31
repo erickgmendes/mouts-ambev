@@ -22,23 +22,12 @@ public class Program
     {
         try
         {
-            // Log.Logger = new LoggerConfiguration()
-            //     .MinimumLevel.Debug()
-            //     .WriteTo.Console()
-            //     .WriteTo.File(
-            //         path: "logs/app-.txt",
-            //         rollingInterval: RollingInterval.Day,
-            //         outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
-            //     .CreateLogger();
-            
             Log.Information("Starting web application");
 
             var builder = WebApplication.CreateBuilder(args);
             builder.AddDefaultLogging();
-
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-
             builder.AddBasicHealthChecks();
             builder.Services.AddSwaggerGen();
 
@@ -64,15 +53,10 @@ public class Program
 
             var mapperConfig = new MapperConfiguration(cfg =>
             {
-                //cfg.AddProfile<GetSaleProfile>();
                 cfg.AddMaps(typeof(GetSaleProfile).Assembly);
             });
 
-            //mapperConfig.AssertConfigurationIsValid();
-
-            //IMapper mapper = mapperConfig.CreateMapper();
             builder.Services.AddAutoMapper(typeof(GetBranchProfile).Assembly);
-            
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             var app = builder.Build();
@@ -85,14 +69,10 @@ public class Program
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseBasicHealthChecks();
-
             app.MapControllers();
-
             app.Run();
         }
         catch (Exception ex)

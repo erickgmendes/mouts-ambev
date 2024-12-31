@@ -97,7 +97,6 @@ public class SaleItemController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-
         try
         {
             var command = _mapper.Map<GetSaleItemCommand>(request.Id);

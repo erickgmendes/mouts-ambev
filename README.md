@@ -1,86 +1,62 @@
-# Developer Evaluation Project
+Passo a passo para executar a aplicação
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-`READ CAREFULLY`
+1. Requisitos, 
+ 1.1. Ter instalado a versão 8 do .Net;
+ 1.2. Ter instalado o docker (no meu caso, usei a versão 27.3.1, build 2.fc41);
 
-## Instructions
-**The test below will have up to 7 calendar days to be delivered from the date of receipt of this manual.**
+2. Pelo console, navegar até a pasta raiz do projeto e executar o comando: 
+   $ docker compose up -d
 
-- The code must be versioned in a public Github repository and a link must be sent for evaluation once completed
-- Upload this template to your repository and start working from it
-- Read the instructions carefully and make sure all requirements are being addressed
-- The repository must provide instructions on how to configure, execute and test the project
-- Documentation and overall organization will also be taken into consideration
+3. Pelo console (bash ou powershell), navegar até a pasta onde está o projeto Ambev.DeveloperEvaluation.ORM "/src/Ambev.DeveloperEvaluation.ORM";
+  3.1. Executar as migrations com o comando:
+  $ dotnet ef database update  --startup-project ../Ambev.DeveloperEvaluation.WebApi --connection "Host=localhost;Port=5432;Database=developer_evaluation;Username=developer;Password=ev@luAt10n"
 
-## Use Case
-**You are a developer on the DeveloperStore team. Now we need to implement the API prototypes.**
+4. Abrir a solution Ambev.DeveloperEvaluation.sln que está na pasta raiz do projeto e marcar o projeto Ambev.DeveloperEvaluation.WebApi como startup project;
 
-As we work with `DDD`, to reference entities from other domains, we use the `External Identities` pattern with denormalization of entity descriptions.
+5. O projeto irá abrir com a interface do Swagger;
 
-Therefore, you will write an API (complete CRUD) that handles sales records. The API needs to be able to inform:
+Utilizando a aplicação
+=-=-=-=-=-=-=-=-=-=-=-
 
-* Sale number
-* Date when the sale was made
-* Customer
-* Total sale amount
-* Branch where the sale was made
-* Products
-* Quantities
-* Unit prices
-* Discounts
-* Total amount for each item
-* Cancelled/Not Cancelled
+6. O projeto foi dividido em 5 apis (além das Apis de Auth e Users já existentes), com os devidos endpoints para:
+  6.1. Branches: Api para o CRUD de Filiais;
+    6.1.1. POST /api/Branches             Cria uma nova filial
+    6.1.2. GET /api/Branches/{id}         Obtém uma filial pelo identificador
+    6.1.3. DELETE /api/Branches/{id}      Remove uma filial pelo identificador
+    6.1.4. PUT /api/Branches/{id}         Modifica uma filial pelo identificador
+   
+  6.2. Customers: Api para o CRUD de Clientes;
+    6.2.1. POST /api/Customers            Cria um novo cliente
+    6.2.2. GET /api/Customers/{id}        Obtém um cliente pelo identificador
+    6.2.3. DELETE /api/Customers/{id}     Remove um cliente pelo identificador
+    6.2.4. PUT /api/Customers/{id}        Modifica um cliente pelo identificador
 
-It's not mandatory, but it would be a differential to build code for publishing events of:
-* SaleCreated
-* SaleModified
-* SaleCancelled
-* ItemCancelled
+  6.3. Products: Api para o CRUD de Produtos;
+    6.3.1. POST /api/Products             Cria um novo produto
+    6.3.2. GET /api/Products/{id}         Obtém um produto pelo identificador
+    6.3.3. DELETE /api/Products/{id}      Remove um produto pelo identificador
+    6.3.4. PUT /api/Products/{id}         Modifica um produto pelo identificador
 
-If you write the code, **it's not required** to actually publish to any Message Broker. You can log a message in the application log or however you find most convenient.
+  6.4. Sales: Api para o CRUD de Vendas;
+    6.3.1. POST /api/Sales                Cria uma nova venda
+    6.3.2. GET /api/Sales/{id}            Obtém uma venda pelo identificador (também traz a lista de itens associados à venda em questão)
+    6.3.3. DELETE /api/Sales/{id}         Remove uma venda pelo identificador
+    6.3.4. PUT /api/Sales/{id}            Modifica uma venda pelo identificador
+    6.3.5. PUT /api/Sale/cancel/{id}      Cancela uma venda pelo identificador
+  
+  6.5. SaleItems: Api para o CRUD de Itens de Venda;
+    6.5.1. POST /api/SaleItems            Cria um novo item de venda
+    6.5.2. GET /api/SaleItems/{id}        Obtém um item de venda pelo identificador
+    6.5.3. DELETE /api/SaleItems/{id}     Remove um item de venda pelo identificador
+    6.5.4. PUT /api/SaleItems/{id}        Modifica um item de venda pelo identificador
+    6.5.5.  PUT /api/SaleItem/cancel/{id}  Cancela um item de venda pelo identificador
 
-### Business Rules
+7. Testes unitários
+=-=-=-=-=-=-=-=-=-=
 
-* Purchases above 4 identical items have a 10% discount
-* Purchases between 10 and 20 identical items have a 20% discount
-* It's not possible to sell above 20 identical items
-* Purchases below 4 items cannot have a discount
-
-These business rules define quantity-based discounting tiers and limitations:
-
-1. Discount Tiers:
-   - 4+ items: 10% discount
-   - 10-20 items: 20% discount
-
-2. Restrictions:
-   - Maximum limit: 20 items per product
-   - No discounts allowed for quantities below 4 items
-
-## Overview
-This section provides a high-level overview of the project and the various skills and competencies it aims to assess for developer candidates. 
-
-See [Overview](/.doc/overview.md)
-
-## Tech Stack
-This section lists the key technologies used in the project, including the backend, testing, frontend, and database components. 
-
-See [Tech Stack](/.doc/tech-stack.md)
-
-## Frameworks
-This section outlines the frameworks and libraries that are leveraged in the project to enhance development productivity and maintainability. 
-
-See [Frameworks](/.doc/frameworks.md)
-
-<!-- 
-## API Structure
-This section includes links to the detailed documentation for the different API resources:
-- [API General](./docs/general-api.md)
-- [Products API](/.doc/products-api.md)
-- [Carts API](/.doc/carts-api.md)
-- [Users API](/.doc/users-api.md)
-- [Auth API](/.doc/auth-api.md)
--->
-
-## Project Structure
-This section describes the overall structure and organization of the project files and directories. 
-
-See [Project Structure](/.doc/project-structure.md)
+  7.1. Os testes unitários foram criados para verificar as classes Handle de Sale e SaleItem, pois contém as aplicações das regras de negócio;
+  7.2. Para a execução dos testes unitários pelo console, navegar até a pasta raiz do projeto, entrar na pasta /tests/Ambev.DeveloperEvaluation.Unit$ e executar o comando:
+       $ dotnet test
+  7.3. Para executar os testes pela IDE, entrar na opção de execução dos testes unitários, executar o build da aplicação (Contrl + B no VisualStudio). 
+       Após o build selecionar os testes e executá-los.
